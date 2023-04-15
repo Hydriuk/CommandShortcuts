@@ -22,8 +22,6 @@ namespace CommandHotkeys.Services
 #endif
     public class CommandController : ICommandController
     {
-        private readonly Dictionary<Player, Timer> _pendingCommands = new Dictionary<Player, Timer>();
-
         // Configuration
         private readonly float _maxHotkeyDelay;
 
@@ -35,21 +33,12 @@ namespace CommandHotkeys.Services
             _maxHotkeyDelay = 2f;
         }
 
-        public void PrepareCommand(Player player, HotkeyedCommand command)
+        public void TryExecuteCommand(Player player, HotkeyedCommand command)
         {
-            if(_pendingCommands.TryGetValue(player, out Timer timer))
-            {
-                timer.Dispose();
-            }
 
-            timer = new Timer(_maxHotkeyDelay*1000);
-            timer.AutoReset = false;
-            timer.Elapsed += (object sender, ElapsedEventArgs e) =>
-            {
-                _commandAdapter.Execute(player, command.Command);
-            };
+            // TODO add cooldown
+            _commandAdapter.Execute(player, command.Command);
 
-            timer.Start();
         }
     }
 }

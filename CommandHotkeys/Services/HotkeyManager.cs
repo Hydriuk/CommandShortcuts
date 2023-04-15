@@ -41,7 +41,7 @@ namespace CommandHotkeys.Services
             _commandController = commandController;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
 
-            _maxDelay = 2f;
+            _maxDelay = 1f;
 
             _playerKeyController = new PlayerKeyController();
 
@@ -83,7 +83,7 @@ namespace CommandHotkeys.Services
 
             // Update last hotkey pressed time
             playerCombo.LastHotkeyTime = time;
-            Console.WriteLine(playerCombo.CommandCandidates?.Count());
+
             IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _commandCandidatesAsset.ToList();
 
             // Get current hotkey
@@ -109,7 +109,8 @@ namespace CommandHotkeys.Services
 
             if (validCommand != null)
             {
-                _commandController.PrepareCommand(player, validCommand.Command);
+                _commandController.TryExecuteCommand(player, validCommand.Command);
+                playerCombo.Reset();
             }
         }
 

@@ -13,8 +13,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CommandCandidateExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HotkeyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CommandCandidate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeyAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Hotkey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\HotkeyedCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerHotkeyCombo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CastingController.cs" />

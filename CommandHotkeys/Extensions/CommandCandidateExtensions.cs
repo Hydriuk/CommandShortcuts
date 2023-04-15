@@ -10,36 +10,35 @@ namespace CommandHotkeys.Extensions
         public static bool TryValidate(this CommandCandidate commandCandidate, EHotkeys hotkeys)
         {
             int index = commandCandidate.ValidatingIndex;
-            Console.WriteLine(index);
 
-            // If index exceeds the  length of the command
-            if(index >= commandCandidate.Command.Hotkeys.Count)
-            {
-                // The command is invalid
+            if (index >= commandCandidate.Command.Hotkeys.Count)
                 return false;
-            }
-            // If some part of the hotkey is not included in the current command
-            if (hotkeys != EHotkeys.None && (commandCandidate.Command.Hotkeys[index] & hotkeys) != hotkeys)
+
+            EHotkeys targetHotkey = commandCandidate.Command.HotkeyList[index];
+            EHotkeys previousHotkeys = index > 0 ? commandCandidate.Command.HotkeyList[index - 1] : EHotkeys.None;
+
+            // If pressing the hotkey
+            if (hotkeys == targetHotkey)
             {
-                Console.WriteLine($"{hotkeys} : invalid");
-                // The command is invalid
-                return false;
-            }
-            // If the full hotkey is the current command
-            else if (commandCandidate.Command.Hotkeys[index] == hotkeys)
-            {
-                Console.WriteLine($"{hotkeys} : completed");
-                // Continue to the next hotkey
                 commandCandidate.ValidatingIndex++;
-                Console.WriteLine(commandCandidate.ValidatingIndex);
                 return true;
             }
-            // If the full key does not correspond to the current command
+           
+            else if ((
+                // If all keys common to current, previous and target hotkeys
+                (hotkeys & previousHotkeys & targetHotkey) | 
+                // Plus current keys that are in current but not in previous hotkeys, while part of the target 
+                (hotkeys ^ previousHotkeys) & hotkeys & targetHotkey)
+                // Equals the target
+                == targetHotkey)
+            {
+                commandCandidate.ValidatingIndex++;
+                return true;
+            }
+
             else
             {
-                Console.WriteLine($"{hotkeys} : continued");
-                // Wait for the next validate action
-                return true;
+                return false;
             }
         }
     }
