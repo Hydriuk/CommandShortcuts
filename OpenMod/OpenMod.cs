@@ -24,7 +24,7 @@ namespace CommandHotkeys.OpenMod
 
         protected override async UniTask OnLoadAsync()
         {
-            _serviceProvider.GetRequiredService<IHotkeyManager>();
+            _serviceProvider.GetRequiredService<IHotkeyController>();
         }
 
         protected override async UniTask OnUnloadAsync()

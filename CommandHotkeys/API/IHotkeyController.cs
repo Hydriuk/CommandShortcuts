@@ -10,7 +10,7 @@ namespace CommandHotkeys.API
 #if OPENMOD
     [Service]
 #endif
-    public interface IHotkeyManager : IDisposable
+    public interface IHotkeyController : IDisposable
     {
     }
 }

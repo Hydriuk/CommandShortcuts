@@ -22,12 +22,12 @@ namespace CommandHotkeys.Services
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
 #endif
-    public class HotkeyManager : IHotkeyManager
+    public class HotkeyController : IHotkeyController
     {
         // Services
         private readonly ICommandController _commandController;
-
         private readonly IPlayerKeyController _playerKeyController;
+        private readonly IPermissionsAdapter _permissionsAdapter;
 
         // Configuration
         private readonly IEnumerable<CommandCandidate> _commandCandidatesAsset;
@@ -36,9 +36,10 @@ namespace CommandHotkeys.Services
         // Data
         private readonly Dictionary<Player, PlayerCommandCandidates> _playerHotkeyCombo = new Dictionary<Player, PlayerCommandCandidates>();
 
-        public HotkeyManager(IConfigurationAdapter<Configuration> configuration, ICommandController commandController)
+        public HotkeyController(IConfigurationAdapter<Configuration> configuration, ICommandController commandController, IPermissionsAdapter permissionsAdapter)
         {
             _commandController = commandController;
+            _permissionsAdapter = permissionsAdapter;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
 
             _maxDelay = 1f;
@@ -69,8 +70,11 @@ namespace CommandHotkeys.Services
         private void InitPlayer(SteamPlayer sPlayer) => _playerHotkeyCombo.Add(sPlayer.player, new PlayerCommandCandidates());
         private void ClearPlayer(SteamPlayer sPlayer) => _playerHotkeyCombo.Remove(sPlayer.player);
 
-        private void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
+        private async void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
         {
+            if (!state)
+                return;
+
             float time = Time.realtimeSinceStartup;
 
             PlayerCommandCandidates playerCombo = _playerHotkeyCombo[player];
@@ -84,7 +88,10 @@ namespace CommandHotkeys.Services
             // Update last hotkey pressed time
             playerCombo.LastHotkeyTime = time;
 
-            IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _commandCandidatesAsset.ToList();
+            IEnumerable<string> playerPermissions = await _permissionsAdapter.GetPermissions(player.channel.owner.playerID.steamID);
+
+            IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _commandCandidatesAsset
+                .Where(command => playerPermissions.Contains(command.Command.Permission));
 
             // Get current hotkey
             EHotkeys hotkeys = ToHotkey(player.input.keys);

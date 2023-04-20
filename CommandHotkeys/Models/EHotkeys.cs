@@ -18,10 +18,10 @@ namespace CommandHotkeys.Models
         LeanRight       = 1 << 7,
         ToggleTactical  = 1 << 8,
         HoldBreath      = 1 << 9,
-        Hotkey1         = 1 << 10,
-        Hotkey2         = 1 << 11,
-        Hotkey3         = 1 << 12,
-        Hotkey4         = 1 << 13,
-        Hotkey5         = 1 << 14,
+        Plugin1         = 1 << 10,
+        Plugin2         = 1 << 11,
+        Plugin3         = 1 << 12,
+        Plugin4         = 1 << 13,
+        Plugin5         = 1 << 14,
     }
 }

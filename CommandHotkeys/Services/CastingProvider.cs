@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommandHotkeys.Services
 {
-    internal class CastingController
+    internal class CastingProvider
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommandHotkeys.Services
 {
-    internal class CooldownManager
+    internal class CooldownProvider
     {
     }
 }

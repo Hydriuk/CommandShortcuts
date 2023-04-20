@@ -12,6 +12,7 @@ namespace CommandHotkeys.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Command { get; set; } = string.Empty;
+        public string Permission { get; set; } = string.Empty;
 
         [YamlIgnore]
         public List<EHotkeys> HotkeyList { get; private set; } = new List<EHotkeys>();

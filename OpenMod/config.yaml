@@ -1,7 +1,24 @@
-# See https://openmod.github.io/openmod-docs/devdoc/concepts/configuration.html
-# You can delete this file if you do not need a configuration
+# BaseGuard - Configuration file
 
+# # # # # # # # # # # # # # # # # # # # #
+# 
+#    Shortcut commands
+#
+# # # # # # #
 Commands:
-- Command: /heal
+
+  # Name of the shortcut
+- Name: test
+
+  # Command executed by the shortcut
+  Command: /heal
+
+  # Permission needed to use the shortcut
+  Permission: default
+
+  # Shortcut keys
+  #   Available keys : [None, Jump, Primary, Secondary, Crouch, Prone, Sprint, LeanLeft, LeanRight, ToggleTactical, HoldBreath, Plugin1, Plugin2, Plugin3, Plugin4, Plugin5]
+  #   Can be a combination of keys by writing keys seperated by ", " as below
+  #   Succesive key combinations can be used by writing the successive keys on a line each, as below
   Hotkeys:
-  - LeanLeft
+  - Sprint, Jump, LeanLeft
