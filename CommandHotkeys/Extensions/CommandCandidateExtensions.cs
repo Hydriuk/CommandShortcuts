@@ -12,7 +12,9 @@ namespace CommandHotkeys.Extensions
             int index = commandCandidate.ValidatingIndex;
 
             if (index >= commandCandidate.Command.Hotkeys.Count)
-                return false;
+            {
+                return true;
+            }
 
             EHotkeys targetHotkey = commandCandidate.Command.HotkeyList[index];
             EHotkeys previousHotkeys = index > 0 ? commandCandidate.Command.HotkeyList[index - 1] : EHotkeys.None;
@@ -23,22 +25,31 @@ namespace CommandHotkeys.Extensions
                 commandCandidate.ValidatingIndex++;
                 return true;
             }
-           
-            else if ((
-                // If all keys common to current, previous and target hotkeys
-                (hotkeys & previousHotkeys & targetHotkey) | 
-                // Plus current keys that are in current but not in previous hotkeys, while part of the target 
-                (hotkeys ^ previousHotkeys) & hotkeys & targetHotkey)
-                // Equals the target
-                == targetHotkey)
+
+            // The None hotkeys is forced to be exact.
+            else if (targetHotkey == EHotkeys.None)
+            {
+                return false;
+            }
+
+            // Soft mathcing (target included in hotkey)
+            else if (
+                (hotkeys & targetHotkey) == targetHotkey)
             {
                 commandCandidate.ValidatingIndex++;
                 return true;
             }
 
-            else
+            // Unvalidate command if an unknow key is pressed
+            else if ((hotkeys ^ targetHotkey ^ previousHotkeys) != EHotkeys.None)
             {
                 return false;
+            }
+
+            // Wait for the next hotkey pressed
+            else
+            {
+                return true;
             }
         }
     }

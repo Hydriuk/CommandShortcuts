@@ -41,7 +41,7 @@ namespace CommandHotkeys.Services
             _commandController = commandController;
             _permissionsAdapter = permissionsAdapter;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
-
+            
             _maxDelay = 1f;
 
             _playerKeyController = new PlayerKeyController();
@@ -85,9 +85,6 @@ namespace CommandHotkeys.Services
                 playerCombo.Reset();
             }
 
-            // Update last hotkey pressed time
-            playerCombo.LastHotkeyTime = time;
-
             IEnumerable<string> playerPermissions = await _permissionsAdapter.GetPermissions(player.channel.owner.playerID.steamID);
 
             IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _commandCandidatesAsset
@@ -111,14 +108,21 @@ namespace CommandHotkeys.Services
             playerCombo.CommandCandidates = commandCandidates;
 
             CommandCandidate validCommand = commandCandidates
-                .Where(commandCandidate => commandCandidate.ValidatingIndex == commandCandidate.Command.Hotkeys.Count)
+                .Where(commandCandidate => commandCandidate.ValidatingIndex >= commandCandidate.Command.HotkeyList.Count)
                 .FirstOrDefault();
 
             if (validCommand != null)
             {
-                _commandController.TryExecuteCommand(player, validCommand.Command);
-                playerCombo.Reset();
+                // Only execute the command if the index match the count
+                if(validCommand.ValidatingIndex == validCommand.Command.HotkeyList.Count)
+                {
+                    _commandController.TryExecuteCommand(player, validCommand.Command);
+                    playerCombo.Reset();
+                }
             }
+
+            // Update last hotkey pressed time
+            playerCombo.LastHotkeyTime = time;
         }
 
         private EHotkeys ToHotkey(bool[] keys)
