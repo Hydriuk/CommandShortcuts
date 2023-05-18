@@ -5,15 +5,15 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommandHotkeys", "CommandHotkeys\CommandHotkeys.shproj", "{93A84E00-059D-46E3-BF0A-356D0FCD7D4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMod", "OpenMod\OpenMod.csproj", "{CEA1FE72-F108-4B33-8660-A3A0558798F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMod", "OpenMod\OpenMod.csproj", "{CEA1FE72-F108-4B33-8660-A3A0558798F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\RocketMod.csproj", "{B162F903-5500-45C2-BE91-C5C1A3A5B282}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenModModules", "..\..\_Shared\OpenModModules\OpenModModules.shproj", "{1A7199DD-ACBD-4DC9-BB6B-3F35582A7E2D}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnturnedModules", "..\UnturnedModules\UnturnedModules\UnturnedModules.shproj", "{10FCE93F-481C-40AB-9E43-AC01A7749E6C}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedModules", "..\..\_Shared\SharedModules\SharedModules.shproj", "{9C68ABD2-3E7D-4D8D-B30A-0C48A236898D}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RocketModModules", "..\UnturnedModules\RocketModModules\RocketModModules.shproj", "{39C1AB64-E2E2-40F4-B406-24961D1370F1}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RocketModModules", "..\..\_Shared\RocketModModules\RocketModModules.shproj", "{73B36C1F-7B23-4547-88E0-8E0EBB3B9635}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenModModules", "..\UnturnedModules\OpenModModules\OpenModModules.shproj", "{89A7FDFF-AA17-42AD-8AFB-E67BE1E18A66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,15 +37,15 @@ Global
 		SolutionGuid = {0FD06F7C-DB89-4471-915F-62345B3CF21A}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\..\_Shared\OpenModModules\OpenModModules.projitems*{1a7199dd-acbd-4dc9-bb6b-3f35582a7e2d}*SharedItemsImports = 13
-		..\..\_Shared\RocketModModules\RocketModModules.projitems*{73b36c1f-7b23-4547-88e0-8e0ebb3b9635}*SharedItemsImports = 13
+		..\UnturnedModules\UnturnedModules\UnturnedModules.projitems*{10fce93f-481c-40ab-9e43-ac01a7749e6c}*SharedItemsImports = 13
+		..\UnturnedModules\RocketModModules\RocketModModules.projitems*{39c1ab64-e2e2-40f4-b406-24961d1370f1}*SharedItemsImports = 13
+		..\UnturnedModules\OpenModModules\OpenModModules.projitems*{89a7fdff-aa17-42ad-8afb-e67be1e18a66}*SharedItemsImports = 13
 		CommandHotkeys\CommandHotkeys.projitems*{93a84e00-059d-46e3-bf0a-356d0fcd7d4b}*SharedItemsImports = 13
-		..\..\_Shared\SharedModules\SharedModules.projitems*{9c68abd2-3e7d-4d8d-b30a-0c48a236898d}*SharedItemsImports = 13
 		CommandHotkeys\CommandHotkeys.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
-		..\..\_Shared\RocketModModules\RocketModModules.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
-		..\..\_Shared\SharedModules\SharedModules.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
+		..\UnturnedModules\RocketModModules\RocketModModules.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
+		..\UnturnedModules\UnturnedModules\UnturnedModules.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
 		CommandHotkeys\CommandHotkeys.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
-		..\..\_Shared\OpenModModules\OpenModModules.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
-		..\..\_Shared\SharedModules\SharedModules.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
+		..\UnturnedModules\OpenModModules\OpenModModules.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
+		..\UnturnedModules\UnturnedModules\UnturnedModules.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

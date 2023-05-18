@@ -52,8 +52,8 @@
 
   <Import Project="..\CommandHotkeys\CommandHotkeys.projitems" Label="Shared" />
 
-  <Import Project="..\..\..\_Shared\OpenModModules\OpenModModules.projitems" Label="Shared" />
+  <Import Project="..\..\UnturnedModules\OpenModModules\OpenModModules.projitems" Label="Shared" />
 
-  <Import Project="..\..\..\_Shared\SharedModules\SharedModules.projitems" Label="Shared" />
+  <Import Project="..\..\UnturnedModules\UnturnedModules\UnturnedModules.projitems" Label="Shared" />
 
 </Project>

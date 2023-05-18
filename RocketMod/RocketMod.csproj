@@ -81,7 +81,7 @@
     <Compile Include="RocketConfiguration.cs" />
   </ItemGroup>
   <Import Project="..\CommandHotkeys\CommandHotkeys.projitems" Label="Shared" />
-  <Import Project="..\..\..\_Shared\RocketModModules\RocketModModules.projitems" Label="Shared" />
-  <Import Project="..\..\..\_Shared\SharedModules\SharedModules.projitems" Label="Shared" />
+  <Import Project="..\..\UnturnedModules\RocketModModules\RocketModModules.projitems" Label="Shared" />
+  <Import Project="..\..\UnturnedModules\UnturnedModules\UnturnedModules.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

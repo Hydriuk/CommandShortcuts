@@ -1,4 +1,4 @@
-﻿using Hydriuk.Unturned.SharedModules.Adapters;
+﻿using Hydriuk.UnturnedModules.Adapters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;

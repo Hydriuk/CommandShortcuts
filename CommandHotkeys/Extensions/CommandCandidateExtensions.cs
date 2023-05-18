@@ -7,6 +7,7 @@ namespace CommandHotkeys.Extensions
 {
     public static class CommandCandidateExtensions
     {
+        // Soflty is refered as allowing keys from previous hotkey to still be pressed to validate the condition
         public static bool TryValidate(this CommandCandidate commandCandidate, EHotkeys hotkeys)
         {
             int index = commandCandidate.ValidatingIndex;
@@ -26,13 +27,13 @@ namespace CommandHotkeys.Extensions
                 return true;
             }
 
-            // The None hotkeys is forced to be exact.
+            // The None hotkeys is softly forced to be exact.
             else if (targetHotkey == EHotkeys.None)
             {
-                return false;
+                return (hotkeys & previousHotkeys) == hotkeys;
             }
 
-            // Soft mathcing (target included in hotkey)
+            // Soft matching (target included in hotkey)
             else if (
                 (hotkeys & targetHotkey) == targetHotkey)
             {
@@ -40,8 +41,8 @@ namespace CommandHotkeys.Extensions
                 return true;
             }
 
-            // Unvalidate command if an unknow key is pressed
-            else if ((hotkeys ^ targetHotkey ^ previousHotkeys) != EHotkeys.None)
+            // Unvalidate command if a key that is nor in pervious hotkey nor in target hotkey is pressed
+            else if ((hotkeys & (previousHotkeys | targetHotkey)) != hotkeys)
             {
                 return false;
             }

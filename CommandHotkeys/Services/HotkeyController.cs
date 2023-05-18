@@ -3,19 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using CommandHotkeys.Models;
-using Hydriuk.Unturned.SharedModules.PlayerKeyModule.Components;
-using Hydriuk.Unturned.SharedModules.PlayerKeyModule.Models;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using System.Linq;
-using Hydriuk.Unturned.SharedModules.Adapters;
 using CommandHotkeys.API;
 using CommandHotkeys.Extensions;
-using Hydriuk.Unturned.SharedModules.PlayerKeyModule.API;
-using Hydriuk.Unturned.SharedModules.PlayerKeyModule.Services;
+using Hydriuk.UnturnedModules.Adapters;
+using Hydriuk.UnturnedModules.PlayerKeys;
+using System.Diagnostics;
 
 namespace CommandHotkeys.Services
 {
@@ -26,8 +24,8 @@ namespace CommandHotkeys.Services
     {
         // Services
         private readonly ICommandController _commandController;
-        private readonly IPlayerKeyController _playerKeyController;
-        private readonly IPermissionsAdapter _permissionsAdapter;
+        private readonly IPlayerKeysController _playerKeyController;
+        private readonly IPermissionAdapter _permissionAdapter;
 
         // Configuration
         private readonly IEnumerable<CommandCandidate> _commandCandidatesAsset;
@@ -36,17 +34,17 @@ namespace CommandHotkeys.Services
         // Data
         private readonly Dictionary<Player, PlayerCommandCandidates> _playerHotkeyCombo = new Dictionary<Player, PlayerCommandCandidates>();
 
-        public HotkeyController(IConfigurationAdapter<Configuration> configuration, ICommandController commandController, IPermissionsAdapter permissionsAdapter)
+        public HotkeyController(IConfigurationAdapter<Configuration> configuration, ICommandController commandController, IPermissionAdapter permissionAdapter)
         {
             _commandController = commandController;
-            _permissionsAdapter = permissionsAdapter;
+            _permissionAdapter = permissionAdapter;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
             
             _maxDelay = 1f;
 
-            _playerKeyController = new PlayerKeyController();
+            _playerKeyController = new PlayerKeysController();
 
-            PlayerKeyListener.KeyStateChanged += OnKeyStateChanged;
+            PlayerKeysListener.KeyStateChanged += OnKeyStateChanged;
 
             Provider.onEnemyConnected += InitPlayer;
             Provider.onEnemyDisconnected += ClearPlayer;
@@ -59,7 +57,7 @@ namespace CommandHotkeys.Services
 
         public void Dispose()
         {
-            PlayerKeyListener.KeyStateChanged -= OnKeyStateChanged;
+            PlayerKeysListener.KeyStateChanged -= OnKeyStateChanged;
 
             Provider.onEnemyConnected -= InitPlayer;
             Provider.onEnemyDisconnected -= ClearPlayer;
@@ -80,12 +78,12 @@ namespace CommandHotkeys.Services
             PlayerCommandCandidates playerCombo = _playerHotkeyCombo[player];
 
             // Clear current combo
-            if (time - playerCombo.LastHotkeyTime > _maxDelay)
+            if (playerCombo.LastHotkeyTime != -1f && time - playerCombo.LastHotkeyTime > _maxDelay)
             {
                 playerCombo.Reset();
             }
 
-            IEnumerable<string> playerPermissions = await _permissionsAdapter.GetPermissions(player.channel.owner.playerID.steamID);
+            IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(player.channel.owner.playerID.steamID);
 
             IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _commandCandidatesAsset
                 .Where(command => playerPermissions.Contains(command.Command.Permission));

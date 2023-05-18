@@ -1,19 +1,11 @@
 ﻿using CommandHotkeys.API;
 using CommandHotkeys.Models;
-using Hydriuk.Unturned.SharedModules.Adapters;
-using Hydriuk.Unturned.SharedModules.PlayerKeyModule.Components;
-using Hydriuk.Unturned.SharedModules.PlayerKeyModule.Models;
+using Hydriuk.UnturnedModules.Adapters;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Timers;
-using UnityEngine;
 
 namespace CommandHotkeys.Services
 {
@@ -35,7 +27,6 @@ namespace CommandHotkeys.Services
 
         public void TryExecuteCommand(Player player, HotkeyedCommand command)
         {
-
             // TODO add cooldown
             _commandAdapter.Execute(player, command.Command);
 
