@@ -12,7 +12,7 @@ namespace CommandHotkeys.Extensions
         {
             int index = commandCandidate.ValidatingIndex;
 
-            if (index >= commandCandidate.Command.Hotkeys.Count)
+            if (index >= commandCandidate.Command.HotkeyList.Count)
             {
                 return true;
             }

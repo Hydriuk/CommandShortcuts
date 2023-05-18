@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)API\ICommandController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\ICooldownProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CommandCandidateExtensions.cs" />
@@ -20,7 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Hotkey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\HotkeyedCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerHotkeyCombo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\CastingProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CommandController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CooldownProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\HotkeyController.cs" />

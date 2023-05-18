@@ -12,7 +12,9 @@ namespace CommandHotkeys.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Command { get; set; } = string.Empty;
+        public bool ExecuteAsConsole { get; set; }
         public string Permission { get; set; } = string.Empty;
+        public double Cooldown { get; set; }
 
         [YamlIgnore]
         public List<EHotkeys> HotkeyList { get; private set; } = new List<EHotkeys>();
@@ -44,7 +46,7 @@ namespace CommandHotkeys.Models
                 .Select(hotkey =>
                 {
                     EHotkeys shiftFlags = hotkey & (EHotkeys.Sprint | EHotkeys.HoldBreath);
-                    if (shiftFlags != (EHotkeys.Sprint | EHotkeys.HoldBreath))
+                    if (shiftFlags == EHotkeys.Sprint || shiftFlags == EHotkeys.HoldBreath)
                     {
                         hotkey |= EHotkeys.Sprint | EHotkeys.HoldBreath;
                     }

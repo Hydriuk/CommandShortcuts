@@ -33,6 +33,7 @@ namespace CommandHotkeys.Services
 
         // Data
         private readonly Dictionary<Player, PlayerCommandCandidates> _playerHotkeyCombo = new Dictionary<Player, PlayerCommandCandidates>();
+        private readonly Dictionary<Player, IEnumerable<CommandCandidate>> _playerAllowedCommands = new Dictionary<Player, IEnumerable<CommandCandidate>>();
 
         public HotkeyController(IConfigurationAdapter<Configuration> configuration, ICommandController commandController, IPermissionAdapter permissionAdapter)
         {
@@ -65,13 +66,29 @@ namespace CommandHotkeys.Services
             _playerKeyController.Dispose();
         }
 
-        private void InitPlayer(SteamPlayer sPlayer) => _playerHotkeyCombo.Add(sPlayer.player, new PlayerCommandCandidates());
-        private void ClearPlayer(SteamPlayer sPlayer) => _playerHotkeyCombo.Remove(sPlayer.player);
+        private async void InitPlayer(SteamPlayer sPlayer)
+        {
+            IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(sPlayer.playerID.steamID);
+            IEnumerable<CommandCandidate> allowedCommands = 
+                _commandCandidatesAsset
+                .Where(command => 
+                    command.Command.Permission != string.Empty && 
+                    playerPermissions.Contains(command.Command.Permission)
+                );
+
+            _playerHotkeyCombo.Add(sPlayer.player, new PlayerCommandCandidates());
+            _playerAllowedCommands.Add(sPlayer.player, allowedCommands);
+        }
+        private void ClearPlayer(SteamPlayer sPlayer)
+        {
+            _playerHotkeyCombo.Remove(sPlayer.player);
+            _playerAllowedCommands.Remove(sPlayer.player);
+        }
 
         private async void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
         {
-            if (!state)
-                return;
+            //if (!state)
+            //    return;
 
             float time = Time.realtimeSinceStartup;
 
@@ -85,13 +102,12 @@ namespace CommandHotkeys.Services
 
             IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(player.channel.owner.playerID.steamID);
 
-            IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _commandCandidatesAsset
-                .Where(command => playerPermissions.Contains(command.Command.Permission));
-
+            IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _playerAllowedCommands[player].ToList();
+                
             // Get current hotkey
             EHotkeys hotkeys = ToHotkey(player.input.keys);
 
-            // Filter commands by current hotkey pressed
+            // Filter commands by hotkey
             commandCandidates = commandCandidates
                 .Where(commandCandidate => commandCandidate.TryValidate(hotkeys))
                 .ToList();
@@ -111,12 +127,8 @@ namespace CommandHotkeys.Services
 
             if (validCommand != null)
             {
-                // Only execute the command if the index match the count
-                if(validCommand.ValidatingIndex == validCommand.Command.HotkeyList.Count)
-                {
-                    _commandController.TryExecuteCommand(player, validCommand.Command);
-                    playerCombo.Reset();
-                }
+                _commandController.TryExecuteCommand(player, validCommand.Command);
+                playerCombo.Reset();
             }
 
             // Update last hotkey pressed time

@@ -8,13 +8,18 @@
 Commands:
 
   # Name of the shortcut
-- Name: test
+- Name: healing
 
   # Command executed by the shortcut
   Command: /heal
 
+  ExecuteAsConsole: true
+
   # Permission needed to use the shortcut
   Permission: default
+
+  # Command cooldown
+  Cooldown: 30
 
   # Shortcut keys
   #   Available keys : [None, Jump, Primary, Secondary, Crouch, Prone, Sprint, LeanLeft, LeanRight, ToggleTactical, HoldBreath, Plugin1, Plugin2, Plugin3, Plugin4, Plugin5]
@@ -22,3 +27,12 @@ Commands:
   #   Succesive key combinations can be used by writing the successive keys on a line each, as below
   Hotkeys:
   - Sprint, Jump, LeanLeft
+  - Sprint, Jump, LeanRight
+
+- Name: healing-vip
+  Command: /heal
+  ExecuteAsConsole: true
+  Permission: vip
+  Cooldown: 0
+  Hotkeys:
+  - Plugin1, LeanLeft
