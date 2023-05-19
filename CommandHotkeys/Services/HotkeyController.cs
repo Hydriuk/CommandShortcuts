@@ -10,10 +10,8 @@ using System.Text;
 using UnityEngine;
 using System.Linq;
 using CommandHotkeys.API;
-using CommandHotkeys.Extensions;
 using Hydriuk.UnturnedModules.Adapters;
 using Hydriuk.UnturnedModules.PlayerKeys;
-using System.Diagnostics;
 
 namespace CommandHotkeys.Services
 {
@@ -26,6 +24,7 @@ namespace CommandHotkeys.Services
         private readonly ICommandController _commandController;
         private readonly IPlayerKeysController _playerKeyController;
         private readonly IPermissionAdapter _permissionAdapter;
+        private readonly IHotkeyValidator _hotkeyValidator;
 
         // Configuration
         private readonly IEnumerable<CommandCandidate> _commandCandidatesAsset;
@@ -35,10 +34,15 @@ namespace CommandHotkeys.Services
         private readonly Dictionary<Player, PlayerCommandCandidates> _playerHotkeyCombo = new Dictionary<Player, PlayerCommandCandidates>();
         private readonly Dictionary<Player, IEnumerable<CommandCandidate>> _playerAllowedCommands = new Dictionary<Player, IEnumerable<CommandCandidate>>();
 
-        public HotkeyController(IConfigurationAdapter<Configuration> configuration, ICommandController commandController, IPermissionAdapter permissionAdapter)
+        public HotkeyController(
+            IConfigurationAdapter<Configuration> configuration, 
+            ICommandController commandController, 
+            IPermissionAdapter permissionAdapter,
+            IHotkeyValidator hotkeyValidator)
         {
             _commandController = commandController;
             _permissionAdapter = permissionAdapter;
+            _hotkeyValidator = hotkeyValidator;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
             
             _maxDelay = 1f;
@@ -87,8 +91,6 @@ namespace CommandHotkeys.Services
 
         private async void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
         {
-            //if (!state)
-            //    return;
 
             float time = Time.realtimeSinceStartup;
 
@@ -102,26 +104,25 @@ namespace CommandHotkeys.Services
 
             IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(player.channel.owner.playerID.steamID);
 
-            IEnumerable<CommandCandidate> commandCandidates = playerCombo.CommandCandidates ?? _playerAllowedCommands[player].ToList();
+            if(playerCombo.CommandCandidates == null)
+            {
+                playerCombo.CommandCandidates = _playerAllowedCommands[player].ToList();
+            }
                 
             // Get current hotkey
             EHotkeys hotkeys = ToHotkey(player.input.keys);
 
             // Filter commands by hotkey
-            commandCandidates = commandCandidates
-                .Where(commandCandidate => commandCandidate.TryValidate(hotkeys))
-                .ToList();
+            _hotkeyValidator.Validate(player, playerCombo, hotkeys);
 
             // Reset candidates if no more candidates are available
-            if (commandCandidates.Count() == 0)
+            if (playerCombo.CommandCandidates.Count() == 0)
             {
                 playerCombo.Reset();
                 return;
             }
 
-            playerCombo.CommandCandidates = commandCandidates;
-
-            CommandCandidate validCommand = commandCandidates
+            CommandCandidate validCommand = playerCombo.CommandCandidates
                 .Where(commandCandidate => commandCandidate.ValidatingIndex >= commandCandidate.Command.HotkeyList.Count)
                 .FirstOrDefault();
 
@@ -130,9 +131,6 @@ namespace CommandHotkeys.Services
                 _commandController.TryExecuteCommand(player, validCommand.Command);
                 playerCombo.Reset();
             }
-
-            // Update last hotkey pressed time
-            playerCombo.LastHotkeyTime = time;
         }
 
         private EHotkeys ToHotkey(bool[] keys)

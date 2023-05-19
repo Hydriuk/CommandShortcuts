@@ -27,6 +27,7 @@ Commands:
   #   Succesive key combinations can be used by writing the successive keys on a line each, as below
   Hotkeys:
   - Sprint, Jump, LeanLeft
+  - None
   - Sprint, Jump, LeanRight
 
 - Name: healing-vip
@@ -35,4 +36,5 @@ Commands:
   Permission: vip
   Cooldown: 0
   Hotkeys:
-  - Plugin1, LeanLeft
+  - Plugin1
+  - Plugin1, LeanLeft, LeanRight
