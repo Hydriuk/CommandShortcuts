@@ -38,16 +38,16 @@ namespace CommandHotkeys.Services
             IConfigurationAdapter<Configuration> configuration, 
             ICommandController commandController, 
             IPermissionAdapter permissionAdapter,
+            IPlayerKeysController playerKeysController,
             IHotkeyValidator hotkeyValidator)
         {
             _commandController = commandController;
             _permissionAdapter = permissionAdapter;
+            _playerKeyController = playerKeysController;
             _hotkeyValidator = hotkeyValidator;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
             
             _maxDelay = 1f;
-
-            _playerKeyController = new PlayerKeysController();
 
             PlayerKeysListener.KeyStateChanged += OnKeyStateChanged;
 
@@ -91,7 +91,6 @@ namespace CommandHotkeys.Services
 
         private async void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
         {
-
             float time = Time.realtimeSinceStartup;
 
             PlayerCommandCandidates playerCombo = _playerHotkeyCombo[player];

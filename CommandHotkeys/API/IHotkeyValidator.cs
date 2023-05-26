@@ -12,7 +12,7 @@ namespace CommandHotkeys.API
 #if OPENMOD
     [Service]
 #endif
-    public interface IHotkeyValidator
+    public interface IHotkeyValidator : IDisposable
     {
         void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys);
     }

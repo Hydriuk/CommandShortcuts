@@ -18,13 +18,34 @@ namespace CommandHotkeys.Services
 #endif
     public class HotkeyValidator : IHotkeyValidator
     {
-        private static TriggerEffectParameters _validatedEffect = new TriggerEffectParameters(new Guid("bc41e0feaebe4e788a3612811b8722d3"));
+        private static TriggerEffectParameters _validatedEffect;
 
         private readonly IThreadAdapter _threadAdapter;
+        private readonly ICastingProvider _castingProvider;
 
-        public HotkeyValidator(IThreadAdapter threadAdapter)
+        public HotkeyValidator(IThreadAdapter threadAdapter, ICastingProvider castingProvider)
         {
             _threadAdapter = threadAdapter;
+            _castingProvider = castingProvider;
+
+            _castingProvider.Casted += ValidateKey;
+
+            if (Level.isLoaded)
+                InitEffect();
+            else
+                Level.onPostLevelLoaded += OnLevelLoaded;
+        }
+
+        public void Dispose()
+        {
+            _castingProvider.Casted -= ValidateKey;
+            Level.onPostLevelLoaded -= OnLevelLoaded;
+        }
+
+        private void OnLevelLoaded(int level) => InitEffect();
+        private void InitEffect()
+        {
+            _validatedEffect = new TriggerEffectParameters(new Guid("bc41e0feaebe4e788a3612811b8722d3"));
         }
 
         public void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys) 
@@ -36,13 +57,14 @@ namespace CommandHotkeys.Services
                 bool success = TryValidate(player, commandCandidate, hotkeys);
 
                 // Update last validated hotkey time
-                if(commandCandidate.ValidatingIndex > initialIndex)
+                if (commandCandidate.ValidatingIndex > initialIndex)
                 {
                     commandCandidates.LastHotkeyTime = Time.realtimeSinceStartup;
                 }
 
                 return success;
             })
+            // To list needed, or there will be a reference issue, duplicating the where calls, while still having the same count of commands
             .ToList();
         }
 
@@ -51,33 +73,50 @@ namespace CommandHotkeys.Services
             int index = commandCandidate.ValidatingIndex;
 
             if (index >= commandCandidate.Command.HotkeyList.Count)
-            {
                 return true;
-            }
 
             EHotkeys targetHotkey = commandCandidate.Command.HotkeyList[index];
             EHotkeys previousHotkeys = index > 0 ? commandCandidate.Command.HotkeyList[index - 1] : EHotkeys.None;
 
-            // If pressing the hotkey
-            if (hotkeys == targetHotkey)
+            if (_castingProvider.IsCasting(player, commandCandidate.Command.Name))
             {
-                SendEffect(player);
-                commandCandidate.ValidatingIndex++;
-                return true;
+                if ((hotkeys & targetHotkey) == targetHotkey)
+                {
+                    return true;
+                }
+                else
+                {
+                    _castingProvider.AbortCast(player, commandCandidate.Command.Name);
+                    return false;
+                }
             }
 
-            // The None hotkeys is softly forced to be exact.
-            else if (targetHotkey == EHotkeys.None)
+
+            // The None hotkeys is forced to be exact. Previous key is softly accepted
+            if (targetHotkey == EHotkeys.None)
             {
-                return (hotkeys & previousHotkeys) == hotkeys;
+                if(hotkeys == EHotkeys.None)
+                {
+                    ValidateKey(player, commandCandidate);
+                    return true;
+                }
+                else if ((hotkeys & previousHotkeys) == hotkeys)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             // Soft matching (target included in hotkey)
-            else if (
-                (hotkeys & targetHotkey) == targetHotkey)
+            else if ((hotkeys & targetHotkey) == targetHotkey)
             {
-                SendEffect(player);
-                commandCandidate.ValidatingIndex++;
+                if (!_castingProvider.TryStartCast(player, commandCandidate))
+                {
+                    ValidateKey(player, commandCandidate);
+                }
                 return true;
             }
 
@@ -92,6 +131,12 @@ namespace CommandHotkeys.Services
             {
                 return true;
             }
+        }
+
+        private void ValidateKey(Player player, CommandCandidate commandCandidate)
+        {
+            SendEffect(player);
+            commandCandidate.ValidatingIndex++;
         }
 
         private void SendEffect(Player player)

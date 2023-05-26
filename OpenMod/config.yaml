@@ -38,3 +38,6 @@ Commands:
   Hotkeys:
   - Plugin1
   - Plugin1, LeanLeft, LeanRight
+  Casts:
+  - 2
+  - 0

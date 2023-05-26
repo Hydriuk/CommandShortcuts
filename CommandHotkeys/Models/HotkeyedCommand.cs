@@ -55,5 +55,7 @@ namespace CommandHotkeys.Models
                 })
                 .ToList();
         }
+
+        public List<double> Casts { get; set; } = new List<double>();
     }
 }

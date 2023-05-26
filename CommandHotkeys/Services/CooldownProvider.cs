@@ -1,10 +1,10 @@
-﻿#if OPENMOD
-using CommandHotkeys.API;
+﻿using CommandHotkeys.API;
 using CommandHotkeys.Models;
+#if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
-using SDG.Unturned;
 #endif
+using SDG.Unturned;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Protocols.WSTrust;
