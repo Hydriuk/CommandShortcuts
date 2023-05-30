@@ -44,7 +44,7 @@ namespace CommandHotkeys.Services
             _permissionAdapter = permissionAdapter;
             _playerKeyController = playerKeysController;
             _hotkeyValidator = hotkeyValidator;
-            _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
+            _commandCandidatesAsset = configuration.Configuration.Shortcuts.Select(command => new CommandCandidate(command));
 
             _maxDelay = 1f;
 

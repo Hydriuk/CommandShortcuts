@@ -46,7 +46,10 @@ namespace CommandHotkeys.Services
 
             if (timeToCooldown <= TimeSpan.Zero)
             {
-                _commandAdapter.Execute(player, command.Command);
+                if(command.ExecuteAsConsole)
+                    _commandAdapter.Execute(command.Command);
+                else
+                    _commandAdapter.Execute(player, command.Command);
             }
             else
             {
