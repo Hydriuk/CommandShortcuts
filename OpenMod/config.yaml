@@ -11,7 +11,7 @@ Shortcuts:
 - Permission: cmdsc.healing.default
 
   # Command executed by the shortcut
-  Command: /heal
+  Command: /heal {PlayerID}
 
   ExecuteAsConsole: true
 
@@ -32,7 +32,7 @@ Shortcuts:
   - 2
 
 - Permission: cmdsc.healing.vip
-  Command: /heal
+  Command: /heal {PlayerID}
   ExecuteAsConsole: true
   Cooldown: 600
   Hotkeys:

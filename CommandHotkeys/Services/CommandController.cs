@@ -44,12 +44,17 @@ namespace CommandHotkeys.Services
         {
             TimeSpan timeToCooldown = _cooldownProvider.TryUseCooldown(player, command);
 
+            string parsedCommand = command.Command
+                .Replace("{PlayerID}", player.GetSteamID().ToString())
+                .Replace("{PlayerName}", player.GetSteamPlayer().playerID.playerName)
+                .Replace("{PlayerCharName}", player.GetSteamPlayer().playerID.characterName);
+
             if (timeToCooldown <= TimeSpan.Zero)
             {
                 if(command.ExecuteAsConsole)
-                    _commandAdapter.Execute(command.Command);
+                    _commandAdapter.Execute(parsedCommand);
                 else
-                    _commandAdapter.Execute(player, command.Command);
+                    _commandAdapter.Execute(player, parsedCommand);
             }
             else
             {

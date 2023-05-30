@@ -16,7 +16,7 @@ namespace CommandHotkeys.RocketMod
                 new HotkeyedCommand()
                 {
                     Permission = "cmdsc.healing.healing",
-                    Command = "/heal",
+                    Command = "/heal {PlayerID}",
                     Cooldown = 3600,
                     Hotkeys = new List<string>() { "Sprint, LeanLeft", "None", "Sprint, LeanRight" },
                     Casts = new List<double>() { 2, 0 , 2 }
@@ -24,7 +24,7 @@ namespace CommandHotkeys.RocketMod
                 new HotkeyedCommand()
                 {
                     Permission = "cmdsc.healing.vip",
-                    Command = "/heal",
+                    Command = "/heal {PlayerID}",
                     Cooldown = 600,
                     Hotkeys = new List<string>() { "Plugin1" },
                     Casts = new List<double>()
