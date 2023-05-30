@@ -7,8 +7,6 @@ using OpenMod.API.Ioc;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
-using System.Text;
 
 namespace CommandHotkeys.Services
 {
@@ -19,7 +17,7 @@ namespace CommandHotkeys.Services
     {
         private readonly Dictionary<Player, Dictionary<string, DateTime>> _executedCommands = new Dictionary<Player, Dictionary<string, DateTime>>();
 
-        public CooldownProvider() 
+        public CooldownProvider()
         {
             Provider.onEnemyConnected += InitPlayer;
 
@@ -43,17 +41,17 @@ namespace CommandHotkeys.Services
         {
             Dictionary<string, DateTime> executedCommands = _executedCommands[player];
 
-            if(!executedCommands.TryGetValue(command.Name, out DateTime lastExecution))
+            if (!executedCommands.TryGetValue(command.Permission, out DateTime lastExecution))
             {
-                executedCommands.Add(command.Name, DateTime.MinValue);
+                executedCommands.Add(command.Permission, DateTime.MinValue);
                 lastExecution = DateTime.MinValue;
             }
 
             TimeSpan remainingCooldown = lastExecution.AddSeconds(command.Cooldown) - DateTime.Now;
 
-            if(remainingCooldown < TimeSpan.Zero)
+            if (remainingCooldown < TimeSpan.Zero)
             {
-                executedCommands[command.Name] = DateTime.Now;
+                executedCommands[command.Permission] = DateTime.Now;
             }
 
             return remainingCooldown;

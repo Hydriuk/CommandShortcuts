@@ -2,11 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommandHotkeys.OpenMod
 {
@@ -15,7 +10,7 @@ namespace CommandHotkeys.OpenMod
     {
         public Configuration Configuration => this;
 
-        public ConfigurationAdapter(IConfiguration configuration) 
+        public ConfigurationAdapter(IConfiguration configuration)
         {
             configuration.Bind(this);
         }

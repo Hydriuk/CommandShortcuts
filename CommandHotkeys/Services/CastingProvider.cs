@@ -7,10 +7,7 @@ using OpenMod.API.Ioc;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Action = System.Action;
 
 namespace CommandHotkeys.Services
 {
@@ -24,7 +21,7 @@ namespace CommandHotkeys.Services
 
         public event Action<Player, CommandCandidate>? Casted;
 
-        public CastingProvider() 
+        public CastingProvider()
         {
             Provider.onEnemyConnected += OnPlayerConnected;
             Provider.onEnemyDisconnected += OnPlayerDisconnected;
@@ -79,10 +76,10 @@ namespace CommandHotkeys.Services
             {
                 timer.Dispose();
                 _timers.Remove(timer);
-                _casts[player].Remove(currentCommand.Name);
+                _casts[player].Remove(currentCommand.Permission);
             });
 
-            _casts[player].Add(currentCommand.Name, cancellationTokenSource);
+            _casts[player].Add(currentCommand.Permission, cancellationTokenSource);
 
             return true;
         }
@@ -95,7 +92,7 @@ namespace CommandHotkeys.Services
             return casts.ContainsKey(commandName);
         }
 
-        public void AbortCast(Player player, string commandName) 
+        public void AbortCast(Player player, string commandName)
         {
             if (!_casts.TryGetValue(player, out Dictionary<string, CancellationTokenSource> casts))
                 return;

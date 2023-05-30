@@ -2,16 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
+using CommandHotkeys.API;
 using CommandHotkeys.Models;
+using Hydriuk.UnturnedModules.Adapters;
+using Hydriuk.UnturnedModules.PlayerKeys;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
 using System.Linq;
-using CommandHotkeys.API;
-using Hydriuk.UnturnedModules.Adapters;
-using Hydriuk.UnturnedModules.PlayerKeys;
+using UnityEngine;
 
 namespace CommandHotkeys.Services
 {
@@ -35,8 +34,8 @@ namespace CommandHotkeys.Services
         private readonly Dictionary<Player, IEnumerable<CommandCandidate>> _playerAllowedCommands = new Dictionary<Player, IEnumerable<CommandCandidate>>();
 
         public HotkeyController(
-            IConfigurationAdapter<Configuration> configuration, 
-            ICommandController commandController, 
+            IConfigurationAdapter<Configuration> configuration,
+            ICommandController commandController,
             IPermissionAdapter permissionAdapter,
             IPlayerKeysController playerKeysController,
             IHotkeyValidator hotkeyValidator)
@@ -46,7 +45,7 @@ namespace CommandHotkeys.Services
             _playerKeyController = playerKeysController;
             _hotkeyValidator = hotkeyValidator;
             _commandCandidatesAsset = configuration.Configuration.Commands.Select(command => new CommandCandidate(command));
-            
+
             _maxDelay = 1f;
 
             PlayerKeysListener.KeyStateChanged += OnKeyStateChanged;
@@ -73,10 +72,10 @@ namespace CommandHotkeys.Services
         private async void InitPlayer(SteamPlayer sPlayer)
         {
             IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(sPlayer.playerID.steamID);
-            IEnumerable<CommandCandidate> allowedCommands = 
+            IEnumerable<CommandCandidate> allowedCommands =
                 _commandCandidatesAsset
-                .Where(command => 
-                    command.Command.Permission != string.Empty && 
+                .Where(command =>
+                    command.Command.Permission != string.Empty &&
                     playerPermissions.Contains(command.Command.Permission)
                 );
 
@@ -103,11 +102,11 @@ namespace CommandHotkeys.Services
 
             IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(player.channel.owner.playerID.steamID);
 
-            if(playerCombo.CommandCandidates == null)
+            if (playerCombo.CommandCandidates == null)
             {
                 playerCombo.CommandCandidates = _playerAllowedCommands[player].ToList();
             }
-                
+
             // Get current hotkey
             EHotkeys hotkeys = ToHotkey(player.input.keys);
 

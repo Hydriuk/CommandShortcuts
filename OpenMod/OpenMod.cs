@@ -1,13 +1,9 @@
 ﻿using CommandHotkeys.API;
 using Cysharp.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using OpenMod.API.Plugins;
 using OpenMod.Unturned.Plugins;
 using System;
-
 
 [assembly: PluginMetadata("CommandHotkeys", DisplayName = "CommandHotkeys", Author = "Hydriuk")]
 

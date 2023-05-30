@@ -25,8 +25,8 @@ namespace CommandHotkeys.Services
         private readonly ITranslationAdapter _translationAdapter;
 
         public CommandController(
-            IConfigurationAdapter<Configuration> configuration, 
-            ICommandAdapter commandAdapter, 
+            IConfigurationAdapter<Configuration> configuration,
+            ICommandAdapter commandAdapter,
             ICooldownProvider cooldownProvider,
             ITranslationAdapter translationAdapter)
         {
@@ -48,8 +48,8 @@ namespace CommandHotkeys.Services
             else
             {
                 ChatManager.serverSendMessage(
-                    _translationAdapter["CoolingDown", new { Seconds = Math.Ceiling(timeToCooldown.TotalSeconds) }], 
-                    Color.yellow, 
+                    _translationAdapter["CoolingDown", new { Seconds = Math.Ceiling(timeToCooldown.TotalSeconds) }],
+                    Color.yellow,
                     toPlayer: player.GetSteamPlayer()
                 );
             }

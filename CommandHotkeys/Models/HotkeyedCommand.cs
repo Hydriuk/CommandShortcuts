@@ -1,25 +1,29 @@
-﻿using CommandHotkeys.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Xml.Serialization;
+#if OPENMOD
 using YamlDotNet.Serialization;
+#endif
 
 namespace CommandHotkeys.Models
 {
     public class HotkeyedCommand
     {
-        public string Name { get; set; } = string.Empty;
         public string Command { get; set; } = string.Empty;
         public bool ExecuteAsConsole { get; set; }
         public string Permission { get; set; } = string.Empty;
         public double Cooldown { get; set; }
 
+#if OPENMOD
         [YamlIgnore]
+#endif
+        [XmlIgnore]
         public List<EHotkeys> HotkeyList { get; private set; } = new List<EHotkeys>();
 
+#if OPENMOD
         [YamlMember(Alias = "Hotkeys")]
+#endif
         public List<string> Hotkeys
         {
             get => HotkeyList

@@ -1,4 +1,4 @@
-# BaseGuard - Configuration file
+# CommandHotkeys - Configuration file
 
 # # # # # # # # # # # # # # # # # # # # #
 # 
@@ -7,37 +7,33 @@
 # # # # # # #
 Commands:
 
-  # Name of the shortcut
-- Name: healing
+  # Permission needed to use the shortcut
+- Permission: cmdsc.healing.default
 
   # Command executed by the shortcut
   Command: /heal
 
   ExecuteAsConsole: true
 
-  # Permission needed to use the shortcut
-  Permission: default
-
   # Command cooldown
-  Cooldown: 30
+  Cooldown: 3600
 
   # Shortcut keys
   #   Available keys : [None, Jump, Primary, Secondary, Crouch, Prone, Sprint, LeanLeft, LeanRight, ToggleTactical, HoldBreath, Plugin1, Plugin2, Plugin3, Plugin4, Plugin5]
-  #   Can be a combination of keys by writing keys seperated by ", " as below
-  #   Succesive key combinations can be used by writing the successive keys on a line each, as below
   Hotkeys:
-  - Sprint, Jump, LeanLeft
+  - Sprint, LeanLeft
   - None
-  - Sprint, Jump, LeanRight
+  - Sprint, LeanRight
 
-- Name: healing-vip
-  Command: /heal
-  ExecuteAsConsole: true
-  Permission: vip
-  Cooldown: 0
-  Hotkeys:
-  - Plugin1
-  - Plugin1, LeanLeft, LeanRight
+  # Hotkey casts
   Casts:
   - 2
   - 0
+  - 2
+
+- Permission: cmdsc.healing.vip
+  Command: /heal
+  ExecuteAsConsole: true
+  Cooldown: 600
+  Hotkeys:
+  - Plugin1

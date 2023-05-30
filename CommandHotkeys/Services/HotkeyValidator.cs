@@ -48,7 +48,7 @@ namespace CommandHotkeys.Services
             _validatedEffect = new TriggerEffectParameters(new Guid("bc41e0feaebe4e788a3612811b8722d3"));
         }
 
-        public void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys) 
+        public void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys)
         {
             commandCandidates.CommandCandidates = commandCandidates.CommandCandidates
             .Where(commandCandidate =>
@@ -78,7 +78,7 @@ namespace CommandHotkeys.Services
             EHotkeys targetHotkey = commandCandidate.Command.HotkeyList[index];
             EHotkeys previousHotkeys = index > 0 ? commandCandidate.Command.HotkeyList[index - 1] : EHotkeys.None;
 
-            if (_castingProvider.IsCasting(player, commandCandidate.Command.Name))
+            if (_castingProvider.IsCasting(player, commandCandidate.Command.Permission))
             {
                 if ((hotkeys & targetHotkey) == targetHotkey)
                 {
@@ -86,16 +86,15 @@ namespace CommandHotkeys.Services
                 }
                 else
                 {
-                    _castingProvider.AbortCast(player, commandCandidate.Command.Name);
+                    _castingProvider.AbortCast(player, commandCandidate.Command.Permission);
                     return false;
                 }
             }
 
-
             // The None hotkeys is forced to be exact. Previous key is softly accepted
             if (targetHotkey == EHotkeys.None)
             {
-                if(hotkeys == EHotkeys.None)
+                if (hotkeys == EHotkeys.None)
                 {
                     ValidateKey(player, commandCandidate);
                     return true;
@@ -145,7 +144,7 @@ namespace CommandHotkeys.Services
             effect.SetRelevantPlayer(player.GetTransportConnection());
             effect.position = player.transform.position;
 
-            _threadAdapter.RunOnMainThread(() =>  EffectManager.triggerEffect(effect));
+            _threadAdapter.RunOnMainThread(() => EffectManager.triggerEffect(effect));
         }
     }
 }

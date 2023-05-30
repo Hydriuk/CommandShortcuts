@@ -15,12 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HotkeyExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Cast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CommandCandidate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeyAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeys.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Hotkey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\HotkeyedCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerHotkeyCombo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CastingProvider.cs" />

@@ -1,11 +1,9 @@
-﻿#if OPENMOD
-using CommandHotkeys.Models;
+﻿using CommandHotkeys.Models;
+#if OPENMOD
 using OpenMod.API.Ioc;
-using SDG.Unturned;
 #endif
+using SDG.Unturned;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CommandHotkeys.API
 {
