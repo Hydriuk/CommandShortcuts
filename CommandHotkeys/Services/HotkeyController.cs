@@ -48,8 +48,8 @@ namespace CommandHotkeys.Services
 
             _maxDelay = 1f;
 
+            _hotkeyValidator.FinalKeyValidated += OnCommandValidated;
             PlayerKeysListener.KeyStateChanged += OnKeyStateChanged;
-
             Provider.onEnemyConnected += InitPlayer;
             Provider.onEnemyDisconnected += ClearPlayer;
 
@@ -61,8 +61,8 @@ namespace CommandHotkeys.Services
 
         public void Dispose()
         {
+            _hotkeyValidator.FinalKeyValidated -= OnCommandValidated;
             PlayerKeysListener.KeyStateChanged -= OnKeyStateChanged;
-
             Provider.onEnemyConnected -= InitPlayer;
             Provider.onEnemyDisconnected -= ClearPlayer;
 
@@ -112,23 +112,12 @@ namespace CommandHotkeys.Services
 
             // Filter commands by hotkey
             _hotkeyValidator.Validate(player, playerCombo, hotkeys);
+        }
 
-            // Reset candidates if no more candidates are available
-            if (playerCombo.CommandCandidates.Count() == 0)
-            {
-                playerCombo.Reset();
-                return;
-            }
-
-            CommandCandidate validCommand = playerCombo.CommandCandidates
-                .Where(commandCandidate => commandCandidate.ValidatingIndex >= commandCandidate.Command.HotkeyList.Count)
-                .FirstOrDefault();
-
-            if (validCommand != null)
-            {
-                _commandController.TryExecuteCommand(player, validCommand.Command);
-                playerCombo.Reset();
-            }
+        private void OnCommandValidated(Player player, CommandCandidate commandCandidate)
+        {
+            _commandController.TryExecuteCommand(player, commandCandidate.Command);
+            _playerHotkeyCombo[player].Reset();
         }
 
         private EHotkeys ToHotkey(bool[] keys)

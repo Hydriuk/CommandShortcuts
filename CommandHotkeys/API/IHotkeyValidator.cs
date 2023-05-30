@@ -13,5 +13,8 @@ namespace CommandHotkeys.API
     public interface IHotkeyValidator : IDisposable
     {
         void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys);
+        void ValidateKey(Player player, CommandCandidate commandCandidate);
+
+        event Action<Player, CommandCandidate> FinalKeyValidated;
     }
 }

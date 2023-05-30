@@ -11,7 +11,7 @@ namespace CommandHotkeys.RocketMod
 
         public void LoadDefaults()
         {
-            Commands = new List<HotkeyedCommand>()
+            Shortcuts = new List<HotkeyedCommand>()
             {
                 new HotkeyedCommand()
                 {

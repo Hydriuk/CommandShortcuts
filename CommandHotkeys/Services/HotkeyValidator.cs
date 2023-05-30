@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace CommandHotkeys.Services
     {
         private readonly ICastingProvider _castingProvider;
         private readonly IEffectProvider _effectProvider;
+
+        public event Action<Player, CommandCandidate>? FinalKeyValidated;
 
         public HotkeyValidator(ICastingProvider castingProvider, IEffectProvider effectProvider)
         {
@@ -115,10 +118,15 @@ namespace CommandHotkeys.Services
             }
         }
 
-        private void ValidateKey(Player player, CommandCandidate commandCandidate)
+        public void ValidateKey(Player player, CommandCandidate commandCandidate)
         {
             _effectProvider.SendValidatedEffect(player);
             commandCandidate.ValidatingIndex++;
+
+            if (commandCandidate.ValidatingIndex == commandCandidate.Command.HotkeyList.Count)
+            {
+                FinalKeyValidated?.Invoke(player, commandCandidate);
+            }
         }
     }
 }

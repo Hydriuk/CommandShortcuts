@@ -5,7 +5,7 @@
 #    Shortcut commands
 #
 # # # # # # #
-Commands:
+Shortcuts:
 
   # Permission needed to use the shortcut
 - Permission: cmdsc.healing.default

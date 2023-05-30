@@ -1,13 +1,18 @@
 ﻿using CommandHotkeys.API;
 using Hydriuk.UnturnedModules.Adapters;
 using Hydriuk.UnturnedModules.Extensions;
+#if OPENMOD
+using Microsoft.Extensions.DependencyInjection;
+using OpenMod.API.Ioc;
+#endif
 using SDG.Unturned;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CommandHotkeys.Services
 {
+#if OPENMOD
+    [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
+#endif
     public class EffectProvider : IEffectProvider
     {
         private static TriggerEffectParameters _validatedEffect;

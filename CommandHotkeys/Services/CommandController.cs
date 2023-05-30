@@ -22,15 +22,18 @@ namespace CommandHotkeys.Services
 
         private readonly ICommandAdapter _commandAdapter;
         private readonly ICooldownProvider _cooldownProvider;
+        private readonly IThreadAdapter _threadAdapter;
         private readonly ITranslationAdapter _translationAdapter;
 
         public CommandController(
             IConfigurationAdapter<Configuration> configuration,
             ICommandAdapter commandAdapter,
+            IThreadAdapter threadAdapter,
             ICooldownProvider cooldownProvider,
             ITranslationAdapter translationAdapter)
         {
             _commandAdapter = commandAdapter;
+            _threadAdapter = threadAdapter;
             _cooldownProvider = cooldownProvider;
             _translationAdapter = translationAdapter;
 
@@ -47,11 +50,14 @@ namespace CommandHotkeys.Services
             }
             else
             {
-                ChatManager.serverSendMessage(
-                    _translationAdapter["CoolingDown", new { Seconds = Math.Ceiling(timeToCooldown.TotalSeconds) }],
-                    Color.yellow,
-                    toPlayer: player.GetSteamPlayer()
-                );
+                _threadAdapter.RunOnMainThread(() =>
+                {
+                    ChatManager.serverSendMessage(
+                        _translationAdapter["CoolingDown", new { Seconds = Math.Ceiling(timeToCooldown.TotalSeconds) }],
+                        Color.yellow,
+                        toPlayer: player.GetSteamPlayer()
+                    );
+                });
             }
         }
     }
