@@ -1,13 +1,10 @@
 ﻿using CommandHotkeys.API;
 using CommandHotkeys.Models;
-using Hydriuk.UnturnedModules.Adapters;
-using Hydriuk.UnturnedModules.Extensions;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -18,34 +15,20 @@ namespace CommandHotkeys.Services
 #endif
     public class HotkeyValidator : IHotkeyValidator
     {
-        private static TriggerEffectParameters _validatedEffect;
-
-        private readonly IThreadAdapter _threadAdapter;
         private readonly ICastingProvider _castingProvider;
+        private readonly IEffectProvider _effectProvider;
 
-        public HotkeyValidator(IThreadAdapter threadAdapter, ICastingProvider castingProvider)
+        public HotkeyValidator(ICastingProvider castingProvider, IEffectProvider effectProvider)
         {
-            _threadAdapter = threadAdapter;
             _castingProvider = castingProvider;
+            _effectProvider = effectProvider;
 
             _castingProvider.Casted += ValidateKey;
-
-            if (Level.isLoaded)
-                InitEffect();
-            else
-                Level.onPostLevelLoaded += OnLevelLoaded;
         }
 
         public void Dispose()
         {
             _castingProvider.Casted -= ValidateKey;
-            Level.onPostLevelLoaded -= OnLevelLoaded;
-        }
-
-        private void OnLevelLoaded(int level) => InitEffect();
-        private void InitEffect()
-        {
-            _validatedEffect = new TriggerEffectParameters(new Guid("bc41e0feaebe4e788a3612811b8722d3"));
         }
 
         public void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys)
@@ -134,17 +117,8 @@ namespace CommandHotkeys.Services
 
         private void ValidateKey(Player player, CommandCandidate commandCandidate)
         {
-            SendEffect(player);
+            _effectProvider.SendValidatedEffect(player);
             commandCandidate.ValidatingIndex++;
-        }
-
-        private void SendEffect(Player player)
-        {
-            var effect = _validatedEffect;
-            effect.SetRelevantPlayer(player.GetTransportConnection());
-            effect.position = player.transform.position;
-
-            _threadAdapter.RunOnMainThread(() => EffectManager.triggerEffect(effect));
         }
     }
 }

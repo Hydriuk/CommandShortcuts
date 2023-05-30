@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\ICastingProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\ICommandController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\ICooldownProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IEffectProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
@@ -23,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\CastingProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CommandController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CooldownProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\EffectProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\HotkeyController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\HotkeyValidator.cs" />
   </ItemGroup>
