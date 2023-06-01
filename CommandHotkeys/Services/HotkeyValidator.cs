@@ -6,6 +6,7 @@ using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -34,21 +35,14 @@ namespace CommandHotkeys.Services
             _castingProvider.Casted -= ValidateKey;
         }
 
-        public void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys)
+        public void Validate(Player player, IEnumerable<CommandCandidate> commandCandidates, EHotkeys hotkeys)
         {
-            commandCandidates.CommandCandidates = commandCandidates.CommandCandidates
+            commandCandidates = commandCandidates
             .Where(commandCandidate =>
             {
                 int initialIndex = commandCandidate.ValidatingIndex;
-                bool success = TryValidate(player, commandCandidate, hotkeys);
 
-                // Update last validated hotkey time
-                if (commandCandidate.ValidatingIndex > initialIndex)
-                {
-                    commandCandidates.LastHotkeyTime = Time.realtimeSinceStartup;
-                }
-
-                return success;
+                return TryValidate(player, commandCandidate, hotkeys);
             })
             // To list needed, or there will be a reference issue, duplicating the where calls, while still having the same count of commands
             .ToList();
@@ -58,13 +52,13 @@ namespace CommandHotkeys.Services
         {
             int index = commandCandidate.ValidatingIndex;
 
-            if (index >= commandCandidate.Command.HotkeyList.Count)
+            if (index >= commandCandidate.Shortcut.HotkeyList.Count)
                 return true;
 
-            EHotkeys targetHotkey = commandCandidate.Command.HotkeyList[index];
-            EHotkeys previousHotkeys = index > 0 ? commandCandidate.Command.HotkeyList[index - 1] : EHotkeys.None;
+            EHotkeys targetHotkey = commandCandidate.Shortcut.HotkeyList[index];
+            EHotkeys previousHotkeys = index > 0 ? commandCandidate.Shortcut.HotkeyList[index - 1] : EHotkeys.None;
 
-            if (_castingProvider.IsCasting(player, commandCandidate.Command.Permission))
+            if (_castingProvider.IsCasting(player, commandCandidate.Shortcut.Permission))
             {
                 if ((hotkeys & targetHotkey) == targetHotkey)
                 {
@@ -72,7 +66,7 @@ namespace CommandHotkeys.Services
                 }
                 else
                 {
-                    _castingProvider.AbortCast(player, commandCandidate.Command.Permission);
+                    _castingProvider.AbortCast(player, commandCandidate.Shortcut.Permission);
                     return false;
                 }
             }
@@ -102,6 +96,10 @@ namespace CommandHotkeys.Services
                 {
                     ValidateKey(player, commandCandidate);
                 }
+                else
+                {
+                    commandCandidate.LastHotkeyTime -= (float)commandCandidate.Shortcut.Casts[commandCandidate.ValidatingIndex];
+                }
                 return true;
             }
 
@@ -122,8 +120,9 @@ namespace CommandHotkeys.Services
         {
             _effectProvider.SendValidatedEffect(player);
             commandCandidate.ValidatingIndex++;
+            commandCandidate.LastHotkeyTime = Time.realtimeSinceStartup;
 
-            if (commandCandidate.ValidatingIndex == commandCandidate.Command.HotkeyList.Count)
+            if (commandCandidate.ValidatingIndex == commandCandidate.Shortcut.HotkeyList.Count)
             {
                 FinalKeyValidated?.Invoke(player, commandCandidate);
             }

@@ -12,6 +12,6 @@ namespace CommandHotkeys.API
 #endif
     public interface ICooldownProvider : IDisposable
     {
-        TimeSpan TryUseCooldown(Player player, HotkeyedCommand command);
+        TimeSpan TryUseCooldown(Player player, Shortcut shortcut);
     }
 }

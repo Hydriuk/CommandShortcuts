@@ -55,10 +55,10 @@ namespace CommandHotkeys.Services
 
         public bool TryStartCast(Player player, CommandCandidate commandCandidate)
         {
-            if (commandCandidate.Command.Casts.Count <= commandCandidate.ValidatingIndex)
+            if (commandCandidate.Shortcut.Casts.Count <= commandCandidate.ValidatingIndex)
                 return false;
 
-            HotkeyedCommand currentCommand = commandCandidate.Command;
+            Shortcut currentCommand = commandCandidate.Shortcut;
             double castingTime = currentCommand.Casts[commandCandidate.ValidatingIndex];
             if (castingTime == 0)
                 return false;

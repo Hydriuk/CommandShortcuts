@@ -37,21 +37,21 @@ namespace CommandHotkeys.Services
             _executedCommands.Add(sPlayer.player, new Dictionary<string, DateTime>());
         }
 
-        public TimeSpan TryUseCooldown(Player player, HotkeyedCommand command)
+        public TimeSpan TryUseCooldown(Player player, Shortcut shortcut)
         {
             Dictionary<string, DateTime> executedCommands = _executedCommands[player];
 
-            if (!executedCommands.TryGetValue(command.Permission, out DateTime lastExecution))
+            if (!executedCommands.TryGetValue(shortcut.Permission, out DateTime lastExecution))
             {
-                executedCommands.Add(command.Permission, DateTime.MinValue);
+                executedCommands.Add(shortcut.Permission, DateTime.MinValue);
                 lastExecution = DateTime.MinValue;
             }
 
-            TimeSpan remainingCooldown = lastExecution.AddSeconds(command.Cooldown) - DateTime.Now;
+            TimeSpan remainingCooldown = lastExecution.AddSeconds(shortcut.Cooldown) - DateTime.Now;
 
             if (remainingCooldown < TimeSpan.Zero)
             {
-                executedCommands[command.Permission] = DateTime.Now;
+                executedCommands[shortcut.Permission] = DateTime.Now;
             }
 
             return remainingCooldown;

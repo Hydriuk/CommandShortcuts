@@ -19,8 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\CommandCandidate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeyAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeys.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\HotkeyedCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerHotkeyCombo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Shortcut.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CastingProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CommandController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CooldownProvider.cs" />

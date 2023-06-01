@@ -11,6 +11,6 @@ namespace CommandHotkeys.API
 #endif
     public interface ICommandController
     {
-        void TryExecuteCommand(Player player, HotkeyedCommand command);
+        void TryExecuteCommand(Player player, Shortcut shortcut);
     }
 }

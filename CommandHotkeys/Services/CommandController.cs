@@ -40,18 +40,18 @@ namespace CommandHotkeys.Services
             _maxHotkeyDelay = 2f;
         }
 
-        public void TryExecuteCommand(Player player, HotkeyedCommand command)
+        public void TryExecuteCommand(Player player, Shortcut shortcut)
         {
-            TimeSpan timeToCooldown = _cooldownProvider.TryUseCooldown(player, command);
+            TimeSpan timeToCooldown = _cooldownProvider.TryUseCooldown(player, shortcut);
 
-            string parsedCommand = command.Command
+            string parsedCommand = shortcut.Command
                 .Replace("{PlayerID}", player.GetSteamID().ToString())
                 .Replace("{PlayerName}", player.GetSteamPlayer().playerID.playerName)
                 .Replace("{PlayerCharName}", player.GetSteamPlayer().playerID.characterName);
 
             if (timeToCooldown <= TimeSpan.Zero)
             {
-                if(command.ExecuteAsConsole)
+                if(shortcut.ExecuteAsConsole)
                     _commandAdapter.Execute(parsedCommand);
                 else
                     _commandAdapter.Execute(player, parsedCommand);

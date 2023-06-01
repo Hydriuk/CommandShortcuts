@@ -5,6 +5,6 @@ namespace CommandHotkeys
 {
     public class Configuration
     {
-        public List<HotkeyedCommand> Shortcuts { get; set; } = new List<HotkeyedCommand>();
+        public List<Shortcut> Shortcuts { get; set; } = new List<Shortcut>();
     }
 }

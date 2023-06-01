@@ -4,6 +4,7 @@ using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
 using System;
+using System.Collections.Generic;
 
 namespace CommandHotkeys.API
 {
@@ -12,7 +13,7 @@ namespace CommandHotkeys.API
 #endif
     public interface IHotkeyValidator : IDisposable
     {
-        void Validate(Player player, PlayerCommandCandidates commandCandidates, EHotkeys hotkeys);
+        void Validate(Player player, IEnumerable<CommandCandidate> commandCandidates, EHotkeys hotkeys);
         void ValidateKey(Player player, CommandCandidate commandCandidate);
 
         event Action<Player, CommandCandidate> FinalKeyValidated;

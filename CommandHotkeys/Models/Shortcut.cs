@@ -8,29 +8,26 @@ using YamlDotNet.Serialization;
 
 namespace CommandHotkeys.Models
 {
-    public class HotkeyedCommand
+    public class Shortcut
     {
-        public string Command { get; set; } = string.Empty;
-        public bool ExecuteAsConsole { get; set; }
         public string Permission { get; set; } = string.Empty;
+        public string Command { get; set; } = string.Empty;
         public double Cooldown { get; set; }
+        public bool ExecuteAsConsole { get; set; }
 
-#if OPENMOD
-        [YamlIgnore]
-#endif
+        [XmlArrayItem("Hotkey")]
+        public List<string> Hotkeys { get; set; } = new List<string>();
         [XmlIgnore]
-        public List<EHotkeys> HotkeyList { get; private set; } = new List<EHotkeys>();
+        public List<EHotkeys> HotkeyList { get => _hotkeys; }
+        [XmlIgnore]
+        private List<EHotkeys> _hotkeys = new List<EHotkeys>();
 
-#if OPENMOD
-        [YamlMember(Alias = "Hotkeys")]
-#endif
-        public List<string> Hotkeys
+
+        public List<double> Casts { get; set; } = new List<double>();
+
+        public void Validate()
         {
-            get => HotkeyList
-                .Select(hotkey => hotkey.ToString())
-                .ToList();
-
-            set => HotkeyList = value
+            _hotkeys = Hotkeys
                 // Parse the string
                 .Select(hotkeyString =>
                 {
@@ -59,7 +56,5 @@ namespace CommandHotkeys.Models
                 })
                 .ToList();
         }
-
-        public List<double> Casts { get; set; } = new List<double>();
     }
 }

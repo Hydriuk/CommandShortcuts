@@ -21,9 +21,9 @@ Shortcuts:
   # Shortcut keys
   #   Available keys : [None, Jump, Primary, Secondary, Crouch, Prone, Sprint, LeanLeft, LeanRight, ToggleTactical, HoldBreath, Plugin1, Plugin2, Plugin3, Plugin4, Plugin5]
   Hotkeys:
-  - Sprint, LeanLeft
-  - None
-  - Sprint, LeanRight
+  - Prone, LeanLeft
+  - Prone
+  - Prone, LeanRight
 
   # Hotkey casts
   Casts:

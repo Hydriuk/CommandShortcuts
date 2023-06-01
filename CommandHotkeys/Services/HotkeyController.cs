@@ -30,7 +30,7 @@ namespace CommandHotkeys.Services
         private readonly float _maxDelay;
 
         // Data
-        private readonly Dictionary<Player, PlayerCommandCandidates> _playerHotkeyCombo = new Dictionary<Player, PlayerCommandCandidates>();
+        private readonly Dictionary<Player, IEnumerable<CommandCandidate>> _commandCandidates = new Dictionary<Player, IEnumerable<CommandCandidate>>();
         private readonly Dictionary<Player, IEnumerable<CommandCandidate>> _playerAllowedCommands = new Dictionary<Player, IEnumerable<CommandCandidate>>();
 
         public HotkeyController(
@@ -75,49 +75,45 @@ namespace CommandHotkeys.Services
             IEnumerable<CommandCandidate> allowedCommands =
                 _commandCandidatesAsset
                 .Where(command =>
-                    command.Command.Permission != string.Empty &&
-                    playerPermissions.Contains(command.Command.Permission)
+                    command.Shortcut.Permission != string.Empty &&
+                    playerPermissions.Contains(command.Shortcut.Permission)
                 );
 
-            _playerHotkeyCombo.Add(sPlayer.player, new PlayerCommandCandidates());
+            _commandCandidates.Add(sPlayer.player, new List<CommandCandidate>());
             _playerAllowedCommands.Add(sPlayer.player, allowedCommands);
         }
         private void ClearPlayer(SteamPlayer sPlayer)
         {
-            _playerHotkeyCombo.Remove(sPlayer.player);
+            _commandCandidates.Remove(sPlayer.player);
             _playerAllowedCommands.Remove(sPlayer.player);
         }
 
-        private async void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
+        private void OnKeyStateChanged(Player player, EPlayerKey key, bool state)
         {
             float time = Time.realtimeSinceStartup;
 
-            PlayerCommandCandidates playerCombo = _playerHotkeyCombo[player];
+            IEnumerable<CommandCandidate> commandCandidates = _commandCandidates[player];
 
-            // Clear current combo
-            if (playerCombo.LastHotkeyTime != -1f && time - playerCombo.LastHotkeyTime > _maxDelay)
+            // Remove expired candidates
+            commandCandidates = commandCandidates.Where(candidate => candidate.LastHotkeyTime == -1 || time - candidate.LastHotkeyTime <= _maxDelay);
+
+            if (commandCandidates.Count() == 0)
             {
-                playerCombo.Reset();
-            }
-
-            IEnumerable<string> playerPermissions = await _permissionAdapter.GetPermissions(player.channel.owner.playerID.steamID);
-
-            if (playerCombo.CommandCandidates == null)
-            {
-                playerCombo.CommandCandidates = _playerAllowedCommands[player].ToList();
+                commandCandidates = _playerAllowedCommands[player].ToList();
+                _commandCandidates[player] = commandCandidates;
             }
 
             // Get current hotkey
             EHotkeys hotkeys = ToHotkey(player.input.keys);
 
             // Filter commands by hotkey
-            _hotkeyValidator.Validate(player, playerCombo, hotkeys);
+            _hotkeyValidator.Validate(player, commandCandidates, hotkeys);
         }
 
         private void OnCommandValidated(Player player, CommandCandidate commandCandidate)
         {
-            _commandController.TryExecuteCommand(player, commandCandidate.Command);
-            _playerHotkeyCombo[player].Reset();
+            _commandController.TryExecuteCommand(player, commandCandidate.Shortcut);
+            _commandCandidates[player] = _playerAllowedCommands[player].ToList();
         }
 
         private EHotkeys ToHotkey(bool[] keys)
