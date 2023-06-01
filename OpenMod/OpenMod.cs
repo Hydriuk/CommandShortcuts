@@ -1,5 +1,6 @@
 ﻿using CommandHotkeys.API;
 using Cysharp.Threading.Tasks;
+using Hydriuk.UnturnedModules.Adapters;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Plugins;
 using OpenMod.Unturned.Plugins;
@@ -13,7 +14,7 @@ namespace CommandHotkeys.OpenMod
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public Plugin(IServiceProvider serviceProvider) : base(serviceProvider)
+        public Plugin(IServiceProvider serviceProvider, IConfigurationAdapter<Configuration> configuration) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -21,6 +22,10 @@ namespace CommandHotkeys.OpenMod
         protected override async UniTask OnLoadAsync()
         {
             _serviceProvider.GetRequiredService<IHotkeyController>();
+            var configuration = _serviceProvider.GetRequiredService<IConfigurationAdapter<Configuration>>();
+            
+            foreach (var shortcut in configuration.Configuration.Shortcuts)
+                shortcut.Validate();
         }
 
         protected override async UniTask OnUnloadAsync()
