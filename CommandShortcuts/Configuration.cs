@@ -1,7 +1,7 @@
-﻿using CommandHotkeys.Models;
+﻿using CommandShortcuts.Models;
 using System.Collections.Generic;
 
-namespace CommandHotkeys
+namespace CommandShortcuts
 {
     public class Configuration
     {

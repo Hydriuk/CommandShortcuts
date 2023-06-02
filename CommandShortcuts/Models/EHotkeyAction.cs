@@ -1,4 +1,4 @@
-﻿namespace CommandHotkeys.Models
+﻿namespace CommandShortcuts.Models
 {
     public enum EHotkeyAction
     {

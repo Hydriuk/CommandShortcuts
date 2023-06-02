@@ -1,4 +1,4 @@
-﻿using CommandHotkeys.API;
+﻿using CommandShortcuts.API;
 using Cysharp.Threading.Tasks;
 using Hydriuk.UnturnedModules.Adapters;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,9 +6,9 @@ using OpenMod.API.Plugins;
 using OpenMod.Unturned.Plugins;
 using System;
 
-[assembly: PluginMetadata("CommandHotkeys", DisplayName = "CommandHotkeys", Author = "Hydriuk")]
+[assembly: PluginMetadata("CommandShortcuts", DisplayName = "CommandShortcuts", Author = "Hydriuk")]
 
-namespace CommandHotkeys.OpenMod
+namespace CommandShortcuts.OpenMod
 {
     public class Plugin : OpenModUnturnedPlugin
     {

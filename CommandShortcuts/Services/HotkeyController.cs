@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
-using CommandHotkeys.API;
-using CommandHotkeys.Models;
+using CommandShortcuts.API;
+using CommandShortcuts.Models;
 using Hydriuk.UnturnedModules.Adapters;
 using Hydriuk.UnturnedModules.PlayerKeys;
 using SDG.Unturned;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace CommandHotkeys.Services
+namespace CommandShortcuts.Services
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]

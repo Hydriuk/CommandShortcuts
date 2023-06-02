@@ -1,4 +1,4 @@
-﻿using CommandHotkeys.API;
+﻿using CommandShortcuts.API;
 using Hydriuk.UnturnedModules.Adapters;
 using Hydriuk.UnturnedModules.Extensions;
 #if OPENMOD
@@ -8,7 +8,7 @@ using OpenMod.API.Ioc;
 using SDG.Unturned;
 using System;
 
-namespace CommandHotkeys.Services
+namespace CommandShortcuts.Services
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]

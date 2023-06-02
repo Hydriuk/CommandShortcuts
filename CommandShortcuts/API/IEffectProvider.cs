@@ -4,7 +4,7 @@ using OpenMod.API.Ioc;
 using SDG.Unturned;
 using System;
 
-namespace CommandHotkeys.API
+namespace CommandShortcuts.API
 {
 #if OPENMOD
     [Service]

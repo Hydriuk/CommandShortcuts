@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommandHotkeys", "CommandHotkeys\CommandHotkeys.shproj", "{93A84E00-059D-46E3-BF0A-356D0FCD7D4B}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommandShortcuts", "CommandShortcuts\CommandShortcuts.shproj", "{93A84E00-059D-46E3-BF0A-356D0FCD7D4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMod", "OpenMod\OpenMod.csproj", "{CEA1FE72-F108-4B33-8660-A3A0558798F0}"
 EndProject
@@ -40,11 +40,11 @@ Global
 		..\UnturnedModules\UnturnedModules\UnturnedModules.projitems*{10fce93f-481c-40ab-9e43-ac01a7749e6c}*SharedItemsImports = 13
 		..\UnturnedModules\RocketModModules\RocketModModules.projitems*{39c1ab64-e2e2-40f4-b406-24961d1370f1}*SharedItemsImports = 13
 		..\UnturnedModules\OpenModModules\OpenModModules.projitems*{89a7fdff-aa17-42ad-8afb-e67be1e18a66}*SharedItemsImports = 13
-		CommandHotkeys\CommandHotkeys.projitems*{93a84e00-059d-46e3-bf0a-356d0fcd7d4b}*SharedItemsImports = 13
-		CommandHotkeys\CommandHotkeys.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
+		CommandShortcuts\CommandShortcuts.projitems*{93a84e00-059d-46e3-bf0a-356d0fcd7d4b}*SharedItemsImports = 13
+		CommandShortcuts\CommandShortcuts.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
 		..\UnturnedModules\RocketModModules\RocketModModules.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
 		..\UnturnedModules\UnturnedModules\UnturnedModules.projitems*{b162f903-5500-45c2-be91-c5c1a3a5b282}*SharedItemsImports = 4
-		CommandHotkeys\CommandHotkeys.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
+		CommandShortcuts\CommandShortcuts.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
 		..\UnturnedModules\OpenModModules\OpenModModules.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
 		..\UnturnedModules\UnturnedModules\UnturnedModules.projitems*{cea1fe72-f108-4b33-8660-a3a0558798f0}*SharedItemsImports = 5
 	EndGlobalSection

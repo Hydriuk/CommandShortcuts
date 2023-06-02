@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using YamlDotNet.Serialization;
 #endif
 
-namespace CommandHotkeys.Models
+namespace CommandShortcuts.Models
 {
     public class Shortcut
     {
@@ -34,7 +34,7 @@ namespace CommandHotkeys.Models
                     if (!Enum.TryParse(hotkeyString, out EHotkeys hotkeys))
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Error.WriteLine($"[{DateTime.Now.ToLongTimeString()}][CommandHotkeys] - The following hotkey couldn't be parsed : '{hotkeyString}'. Please check your configuration file");
+                        Console.Error.WriteLine($"[{DateTime.Now.ToLongTimeString()}][CommandShortcuts] - The following hotkey couldn't be parsed : '{hotkeyString}'. Please check your configuration file");
                         Console.ResetColor();
 
                         hotkeys = (EHotkeys)int.MaxValue;

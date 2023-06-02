@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 
-namespace CommandHotkeys.OpenMod
+namespace CommandShortcuts.OpenMod
 {
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
     public class ConfigurationAdapter : Configuration, IConfigurationAdapter<Configuration>

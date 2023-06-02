@@ -1,5 +1,5 @@
-﻿using CommandHotkeys.API;
-using CommandHotkeys.Models;
+﻿using CommandShortcuts.API;
+using CommandShortcuts.Models;
 using Hydriuk.UnturnedModules.Adapters;
 using Hydriuk.UnturnedModules.Extensions;
 #if OPENMOD
@@ -10,7 +10,7 @@ using SDG.Unturned;
 using System;
 using UnityEngine;
 
-namespace CommandHotkeys.Services
+namespace CommandShortcuts.Services
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]

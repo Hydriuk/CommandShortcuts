@@ -1,4 +1,4 @@
-﻿using CommandHotkeys.Models;
+﻿using CommandShortcuts.Models;
 #if OPENMOD
 using OpenMod.API.Ioc;
 #endif
@@ -6,7 +6,7 @@ using SDG.Unturned;
 using System;
 using System.Collections.Generic;
 
-namespace CommandHotkeys.API
+namespace CommandShortcuts.API
 {
 #if OPENMOD
     [Service]

@@ -6,7 +6,7 @@
     <SharedGUID>93a84e00-059d-46e3-bf0a-356d0fcd7d4b</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>CommandHotkeys</Import_RootNamespace>
+    <Import_RootNamespace>CommandShortcuts</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)API\ICastingProvider.cs" />

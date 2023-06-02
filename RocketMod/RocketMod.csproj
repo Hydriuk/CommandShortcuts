@@ -7,8 +7,8 @@
     <ProjectGuid>{B162F903-5500-45C2-BE91-C5C1A3A5B282}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CommandHotkeys.RocketMod</RootNamespace>
-    <AssemblyName>CommandHotkeys.RocketMod</AssemblyName>
+    <RootNamespace>CommandShortcuts.RocketMod</RootNamespace>
+    <AssemblyName>CommandShortcuts.RocketMod</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -80,7 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RocketConfiguration.cs" />
   </ItemGroup>
-  <Import Project="..\CommandHotkeys\CommandHotkeys.projitems" Label="Shared" />
+  <Import Project="..\CommandShortcuts\CommandShortcuts.projitems" Label="Shared" />
   <Import Project="..\..\UnturnedModules\RocketModModules\RocketModModules.projitems" Label="Shared" />
   <Import Project="..\..\UnturnedModules\UnturnedModules\UnturnedModules.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

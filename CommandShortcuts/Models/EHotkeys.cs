@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CommandHotkeys.Models
+namespace CommandShortcuts.Models
 {
     [Flags]
     public enum EHotkeys

@@ -1,5 +1,5 @@
-﻿using CommandHotkeys.API;
-using CommandHotkeys.Models;
+﻿using CommandShortcuts.API;
+using CommandShortcuts.Models;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace CommandHotkeys.Services
+namespace CommandShortcuts.Services
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]

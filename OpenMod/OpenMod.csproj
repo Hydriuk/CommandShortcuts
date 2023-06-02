@@ -4,10 +4,10 @@
     <TargetFramework>net481</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>openmod openmod-plugin unturned</PackageTags>
-    <RootNamespace>CommandHotkeys.OpenMod</RootNamespace>
+    <RootNamespace>CommandShortcuts.OpenMod</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateNugetPackage>true</GenerateNugetPackage>
-    <Product>CommandHotkeys</Product>
+    <Product>CommandShortcuts</Product>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <NoWarn>$(NoWarn);NU1701;NU1702;CS0436</NoWarn>
@@ -18,7 +18,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <SignAssembly>False</SignAssembly>
     <Configurations>OpenMod;RocketMod</Configurations>
-    <AssemblyName>CommandHotkeys.OpenMod</AssemblyName>
+    <AssemblyName>CommandShortcuts.OpenMod</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RocketMod|AnyCPU'">
@@ -50,7 +50,7 @@
     </ItemGroup>
   </Target>
 
-  <Import Project="..\CommandHotkeys\CommandHotkeys.projitems" Label="Shared" />
+  <Import Project="..\CommandShortcuts\CommandShortcuts.projitems" Label="Shared" />
 
   <Import Project="..\..\UnturnedModules\OpenModModules\OpenModModules.projitems" Label="Shared" />
 

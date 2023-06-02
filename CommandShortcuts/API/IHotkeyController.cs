@@ -3,7 +3,7 @@ using OpenMod.API.Ioc;
 #endif
 using System;
 
-namespace CommandHotkeys.API
+namespace CommandShortcuts.API
 {
 #if OPENMOD
     [Service]

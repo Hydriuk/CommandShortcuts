@@ -1,5 +1,5 @@
-﻿using CommandHotkeys.API;
-using CommandHotkeys.Services;
+﻿using CommandShortcuts.API;
+using CommandShortcuts.Services;
 using Hydriuk.RocketModModules.Adapters;
 using Hydriuk.UnturnedModules.Adapters;
 using Hydriuk.UnturnedModules.PlayerKeys;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommandHotkeys.RocketMod
+namespace CommandShortcuts.RocketMod
 {
     public class Plugin : RocketPlugin<RocketConfiguration>
     {

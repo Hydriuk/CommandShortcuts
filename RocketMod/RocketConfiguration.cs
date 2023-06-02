@@ -1,11 +1,11 @@
-﻿using CommandHotkeys.Models;
+﻿using CommandShortcuts.Models;
 using Hydriuk.UnturnedModules.Adapters;
 using Rocket.API;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace CommandHotkeys.RocketMod
+namespace CommandShortcuts.RocketMod
 {
     public class RocketConfiguration : Configuration, IConfigurationAdapter<Configuration>, IRocketPluginConfiguration
     {
