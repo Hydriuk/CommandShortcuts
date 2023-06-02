@@ -18,7 +18,7 @@ namespace CommandShortcuts.Services
     public class CommandController : ICommandController
     {
         // Configuration
-        private readonly float _maxHotkeyDelay;
+        private readonly string _chatIcon;
 
         private readonly ICommandAdapter _commandAdapter;
         private readonly ICooldownProvider _cooldownProvider;
@@ -32,12 +32,12 @@ namespace CommandShortcuts.Services
             ICooldownProvider cooldownProvider,
             ITranslationAdapter translationAdapter)
         {
+            _chatIcon = configuration.Configuration.ChatIcon;
+
             _commandAdapter = commandAdapter;
             _threadAdapter = threadAdapter;
             _cooldownProvider = cooldownProvider;
             _translationAdapter = translationAdapter;
-
-            _maxHotkeyDelay = 2f;
         }
 
         public void TryExecuteCommand(Player player, Shortcut shortcut)
@@ -63,7 +63,8 @@ namespace CommandShortcuts.Services
                     ChatManager.serverSendMessage(
                         _translationAdapter["CoolingDown", new { Seconds = Math.Ceiling(timeToCooldown.TotalSeconds) }],
                         Color.yellow,
-                        toPlayer: player.GetSteamPlayer()
+                        toPlayer: player.GetSteamPlayer(),
+                        iconURL: _chatIcon
                     );
                 });
             }

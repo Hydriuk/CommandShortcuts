@@ -14,6 +14,8 @@ namespace CommandShortcuts.RocketMod
 
         public void LoadDefaults()
         {
+            ValidatedEffectGUID = "bc41e0feaebe4e788a3612811b8722d3";
+            ChatIcon = "https://i.imgur.com/nD9DLyu.png";
             Shortcuts = new List<Shortcut>()
             {
                 new Shortcut()

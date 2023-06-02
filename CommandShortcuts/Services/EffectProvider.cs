@@ -15,12 +15,14 @@ namespace CommandShortcuts.Services
 #endif
     public class EffectProvider : IEffectProvider
     {
-        private static TriggerEffectParameters _validatedEffect;
+        private readonly string _validatedEffectGUID;
+        private TriggerEffectParameters _validatedEffect;
 
         private readonly IThreadAdapter _threadAdapter;
 
-        public EffectProvider(IThreadAdapter threadAdapter) 
+        public EffectProvider(IConfigurationAdapter<Configuration> configuration, IThreadAdapter threadAdapter) 
         {
+            _validatedEffectGUID = configuration.Configuration.ValidatedEffectGUID;
             _threadAdapter = threadAdapter;
 
             if (Level.isLoaded)
@@ -36,6 +38,9 @@ namespace CommandShortcuts.Services
 
         public void SendValidatedEffect(Player player)
         {
+            if (_validatedEffectGUID == string.Empty)
+                return;
+
             var effect = _validatedEffect;
             effect.SetRelevantPlayer(player.GetTransportConnection());
             effect.position = player.transform.position;
@@ -46,7 +51,10 @@ namespace CommandShortcuts.Services
         private void OnLevelLoaded(int level) => InitEffect();
         private void InitEffect()
         {
-            _validatedEffect = new TriggerEffectParameters(new Guid("bc41e0feaebe4e788a3612811b8722d3"));
+            if (_validatedEffectGUID == string.Empty)
+                return;
+
+            _validatedEffect = new TriggerEffectParameters(new Guid(_validatedEffectGUID));
         }
     }
 }

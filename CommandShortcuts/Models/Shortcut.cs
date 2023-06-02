@@ -22,7 +22,7 @@ namespace CommandShortcuts.Models
         [XmlIgnore]
         private List<EHotkeys> _hotkeys = new List<EHotkeys>();
 
-
+        [XmlArrayItem("CastingTime")]
         public List<double> Casts { get; set; } = new List<double>();
 
         public void Validate()

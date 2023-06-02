@@ -83,9 +83,9 @@ Casts:
 
 ## **Options description**
 
-### **`ValidatedEffectId`**
-- **Value**: Number (from 0 to 65,535)
-- **Use**: ID of the effect to be played when a hotkey is validated. To disable, set value to `0`
+### **`ValidatedEffectGUID`**
+- **Value**: GUID
+- **Use**: GUID of the effect to be played when a hotkey is validated. To disable, leave empty
 
 ### **`ChatIcon`**
 - **Value**: URL
@@ -126,7 +126,7 @@ This section defines all shortcuts players can use.
   - `Sprint`: Hold the sprint key
   - `LeanLeft`: Hold the lean left key
   - `LeanRight`: Hold the lean right key
-  - `ToggleTactical`: Hold/Press  ?   ?   ?   ?   ?   ?   ?   ? the toggle tactical key while holding a weapon which can use this action
+  - `ToggleTactical`: Press the toggle tactical key while holding a weapon equipped with a toggleable tactical. Can't be casted
   - `HoldBreath`: Hold the hold breath key
   - `Plugin1`: Hold the plugin hotkey 1
   - `Plugin2`: Hold the plugin hotkey 2

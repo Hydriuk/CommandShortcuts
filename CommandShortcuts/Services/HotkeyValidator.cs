@@ -96,10 +96,6 @@ namespace CommandShortcuts.Services
                 {
                     ValidateKey(player, commandCandidate);
                 }
-                else
-                {
-                    commandCandidate.LastHotkeyTime -= (float)commandCandidate.Shortcut.Casts[commandCandidate.ValidatingIndex];
-                }
                 return true;
             }
 
