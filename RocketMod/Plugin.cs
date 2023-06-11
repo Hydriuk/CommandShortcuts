@@ -24,6 +24,7 @@ namespace CommandShortcuts.RocketMod
         private IPlayerKeysController _playerKeysController;
         private ICommandAdapter _commandAdapter;
         private ITranslationAdapter _translationAdapter;
+        private IEnvironmentAdapter _environmentAdapter;
 
         private ICastingProvider _castingProvider;
         private ICooldownProvider _cooldownProvider;
@@ -45,9 +46,10 @@ namespace CommandShortcuts.RocketMod
             _playerKeysController = new PlayerKeysController();
             _commandAdapter = new CommandAdapter();
             _translationAdapter = new TranslationsAdapter(Translations.Instance);
+            _environmentAdapter = new EnvironmentAdapter(this);
 
             _castingProvider = new CastingProvider();
-            _cooldownProvider = new CooldownProvider();
+            _cooldownProvider = new CooldownProvider(_environmentAdapter);
             _effectProvider = new EffectProvider(Configuration.Instance, _threadAdapter);
             _hotkeyValidator = new HotkeyValidator(_castingProvider, _effectProvider);
             _commandController = new CommandController(Configuration.Instance, _commandAdapter, _threadAdapter, _cooldownProvider, _translationAdapter);

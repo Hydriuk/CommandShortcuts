@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IHotkeyValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\CommandCandidate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Cooldown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeyAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EHotkeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shortcut.cs" />

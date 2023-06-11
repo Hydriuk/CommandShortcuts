@@ -1,5 +1,8 @@
 ﻿using CommandShortcuts.API;
 using CommandShortcuts.Models;
+using Hydriuk.UnturnedModules.Adapters;
+using Hydriuk.UnturnedModules.Extensions;
+using LiteDB;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -15,43 +18,44 @@ namespace CommandShortcuts.Services
 #endif
     public class CooldownProvider : ICooldownProvider
     {
-        private readonly Dictionary<Player, Dictionary<string, DateTime>> _executedCommands = new Dictionary<Player, Dictionary<string, DateTime>>();
+        //private readonly Dictionary<Player, Dictionary<string, DateTime>> _executedCommands = new Dictionary<Player, Dictionary<string, DateTime>>();
 
-        public CooldownProvider()
+        private readonly LiteDatabase _database;
+        private readonly ILiteCollection<Cooldown> _cooldowns;
+
+        public CooldownProvider(IEnvironmentAdapter environmentAdapter)
         {
-            Provider.onEnemyConnected += InitPlayer;
+            _database = new LiteDatabase($"{environmentAdapter.Directory}/cooldowns.db");
+            _cooldowns = _database.GetCollection<Cooldown>();
 
-            foreach (var sPlayer in Provider.clients)
-            {
-                InitPlayer(sPlayer);
-            }
+            _cooldowns.EnsureIndex(cooldown => cooldown.PlayerID);
+            _cooldowns.EnsureIndex(cooldown => cooldown.Permission);
         }
 
         public void Dispose()
         {
-            Provider.onEnemyConnected -= InitPlayer;
-        }
-
-        private void InitPlayer(SteamPlayer sPlayer)
-        {
-            _executedCommands.Add(sPlayer.player, new Dictionary<string, DateTime>());
+            _database.Dispose();
         }
 
         public TimeSpan TryUseCooldown(Player player, Shortcut shortcut)
         {
-            Dictionary<string, DateTime> executedCommands = _executedCommands[player];
+            Cooldown cooldown = _cooldowns.FindOne(cooldown => cooldown.PlayerID == player.GetSteamID().m_SteamID && cooldown.Permission == shortcut.Permission);
 
-            if (!executedCommands.TryGetValue(shortcut.Permission, out DateTime lastExecution))
+            if(cooldown == null)
             {
-                executedCommands.Add(shortcut.Permission, DateTime.MinValue);
-                lastExecution = DateTime.MinValue;
+                cooldown = new Cooldown()
+                {
+                    PlayerID = player.GetSteamID().m_SteamID,
+                    Permission = shortcut.Permission
+                };
             }
 
-            TimeSpan remainingCooldown = lastExecution.AddSeconds(shortcut.Cooldown) - DateTime.Now;
+            TimeSpan remainingCooldown = cooldown.CooledDownAt - DateTime.Now;
 
             if (remainingCooldown < TimeSpan.Zero)
             {
-                executedCommands[shortcut.Permission] = DateTime.Now;
+                cooldown.CooledDownAt = DateTime.Now.AddSeconds(shortcut.Cooldown);
+                _cooldowns.Upsert(cooldown);
             }
 
             return remainingCooldown;
