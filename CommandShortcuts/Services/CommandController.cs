@@ -49,25 +49,26 @@ namespace CommandShortcuts.Services
                 .Replace("{PlayerName}", player.GetSteamPlayer().playerID.playerName)
                 .Replace("{PlayerCharName}", player.GetSteamPlayer().playerID.characterName);
 
-            if (timeToCooldown <= TimeSpan.Zero)
+            _threadAdapter.RunOnMainThread(() =>
             {
-                if(shortcut.ExecuteAsConsole)
-                    _commandAdapter.Execute(parsedCommand);
-                else
-                    _commandAdapter.Execute(player, parsedCommand);
-            }
-            else
-            {
-                _threadAdapter.RunOnMainThread(() =>
+                if (timeToCooldown <= TimeSpan.Zero)
                 {
+                    if(shortcut.ExecuteAsConsole)
+                        _commandAdapter.Execute(parsedCommand);
+                    else
+                        _commandAdapter.Execute(player, parsedCommand);
+                }
+                else
+                {
+
                     ChatManager.serverSendMessage(
                         _translationAdapter["CoolingDown", new { Seconds = Math.Ceiling(timeToCooldown.TotalSeconds) }],
                         Color.yellow,
                         toPlayer: player.GetSteamPlayer(),
                         iconURL: _chatIcon
                     );
-                });
-            }
+                }
+            });
         }
     }
 }

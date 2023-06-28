@@ -101,6 +101,9 @@ namespace CommandShortcuts.Services
             {
                 commandCandidates = _playerAllowedCommands[player].ToList();
                 _commandCandidates[player] = commandCandidates;
+
+                foreach (var commandCandidate in commandCandidates)
+                    commandCandidate.LastHotkeyTime = Time.realtimeSinceStartup;
             }
 
             // Get current hotkey

@@ -45,7 +45,7 @@ namespace CommandShortcuts.RocketMod
             _permissinoAdapter = new PermissionAdapter();
             _playerKeysController = new PlayerKeysController();
             _commandAdapter = new CommandAdapter();
-            _translationAdapter = new TranslationsAdapter(Translations.Instance);
+            _translationAdapter = new TranslationAdapter(Translations.Instance);
             _environmentAdapter = new EnvironmentAdapter(this);
 
             _castingProvider = new CastingProvider();

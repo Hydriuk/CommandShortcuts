@@ -25,7 +25,7 @@ namespace CommandShortcuts.Services
         {
             Provider.onEnemyConnected += OnPlayerConnected;
             Provider.onEnemyDisconnected += OnPlayerDisconnected;
-
+                 
             foreach (SteamPlayer sPlayer in Provider.clients)
             {
                 OnPlayerConnected(sPlayer);
@@ -63,15 +63,17 @@ namespace CommandShortcuts.Services
             if (castingTime == 0)
                 return false;
 
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(castingTime));
+
             // Validation timer
             Timer timer = new Timer(state =>
             {
                 Casted?.Invoke(player, commandCandidate);
+                cancellationTokenSource.Cancel();
             }, null, (int)(castingTime * 1000), -1);
             _timers.Add(timer);
 
             // Cancel method
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(castingTime));
             cancellationTokenSource.Token.Register(() =>
             {
                 timer.Dispose();

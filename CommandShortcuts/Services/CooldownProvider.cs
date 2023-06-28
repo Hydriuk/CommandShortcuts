@@ -18,8 +18,6 @@ namespace CommandShortcuts.Services
 #endif
     public class CooldownProvider : ICooldownProvider
     {
-        //private readonly Dictionary<Player, Dictionary<string, DateTime>> _executedCommands = new Dictionary<Player, Dictionary<string, DateTime>>();
-
         private readonly LiteDatabase _database;
         private readonly ILiteCollection<Cooldown> _cooldowns;
 
@@ -30,6 +28,8 @@ namespace CommandShortcuts.Services
 
             _cooldowns.EnsureIndex(cooldown => cooldown.PlayerID);
             _cooldowns.EnsureIndex(cooldown => cooldown.Permission);
+
+            _cooldowns.DeleteMany(cooldown => cooldown.CooledDownAt < DateTime.Now);
         }
 
         public void Dispose()
